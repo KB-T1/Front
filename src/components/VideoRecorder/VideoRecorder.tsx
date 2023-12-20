@@ -98,10 +98,12 @@ const getMediaPermission = useCallback(async () => {
     const videoBlob = new Blob(videoChunks.current, { type: "video/webm" });
     
     console.log("Video Blob:", videoBlob);
+    console.log("Video Blob:", videoBlob.size);
     const videoUrl = URL.createObjectURL(videoBlob);
     const link = document.createElement("a");
     link.download = `My video - ${dayjs().format("YYYYMMDD")}.webm`;
     link.href = videoUrl;
+    console.log(link)
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -110,7 +112,7 @@ const getMediaPermission = useCallback(async () => {
     reset();
 
     const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
-    navigate(`${navigateTo}`, {state: videoBlob});
+    navigate(`${navigateTo}`, {state: link.href});
   };
 
   //사용자 정의 Hook

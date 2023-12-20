@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Navbar } from "../../commons/Navbar";
 import { H3 } from "../../commons/Text";
@@ -12,16 +12,13 @@ export default function ResponseConfirm() {
 
   const location = useLocation();
 
-  const videoBlob = location.state?.state;
-  console.log(videoBlob)
-  const videoUrl = URL.createObjectURL(videoBlob);
+  const videoUrl = location.state;
 
   const tmpData = {
     name: "이수민",
     relationship: "따님",
     amount: 500000,
   };
-
 
   return (
     <TransferConfirmContainer>
@@ -35,9 +32,8 @@ export default function ResponseConfirm() {
             <H3>답장을 보낼게요.</H3>
           </Header>
           <VideoBox>
-            <video width="250" height="360" controls>
-              <source src={videoUrl} type="video/webm"/>
-            </video>
+          <Video src={videoUrl} width={320} height={530}>
+          </Video>
             <span>
               <input type="checkbox" />
               답장 꼭 받기
@@ -110,4 +106,19 @@ const VideoBox = styled.div`
   & > img {
     margin-bottom: 1rem;
   }
+`;
+
+const Video = styled.video`
+  width: 320px;
+  height: 600px;
+`;
+
+const PlayPauseButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  cursor: pointer;
 `;

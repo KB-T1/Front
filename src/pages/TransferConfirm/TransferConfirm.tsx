@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Navbar } from "../../commons/Navbar";
 import { H3 } from "../../commons/Text";
@@ -14,12 +14,8 @@ export default function TransferConfirm() {
 
   const location = useLocation();
 
-  const videoBlob = location.state?.state;
-  console.log("Received Video Blob:", videoBlob);
-  console.log("Blob Type:", videoBlob?.type);
-  const videoUrl = URL.createObjectURL(videoBlob);
+  const videoUrl = location.state;
 
-  
   const tmpData = {
     name: "이수민",
     relationship: "따님",
@@ -38,8 +34,8 @@ export default function TransferConfirm() {
             <H3>{tmpData.amount.toLocaleString()}원과 마음을 보낼게요.</H3>
           </Header>
           <VideoBox>
-            <video width="250" height="360" src= {videoUrl} controls>
-            </video>
+          <Video src={videoUrl} width={320} height={530}>
+          </Video>
             <span>
               <input type="checkbox" />
               답장 꼭 받기
@@ -92,7 +88,7 @@ const TransferConfirmContainer = styled.div`
 const Header = styled.div`
   margin-left: 20px;
   margin-top: 36px;
-  margin-bottom: 36px;
+  margin-bottom: 6px;
 `;
 
 const Header2 = styled.div`
@@ -112,4 +108,20 @@ const VideoBox = styled.div`
   & > img {
     margin-bottom: 1rem;
   }
+`;
+
+
+const Video = styled.video`
+  width: 320px;
+  height: 600px;
+`;
+
+const PlayPauseButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
