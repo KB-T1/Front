@@ -1,5 +1,5 @@
 
-def label = "ollilove-front-${env.BUILD_NUMBER}"
+def label = "kbt1-ollilove-front-${env.BUILD_NUMBER}"
 
 /* -------- functions ---------- */
 def notifySlack(STATUS, COLOR) {
