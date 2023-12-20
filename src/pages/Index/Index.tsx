@@ -50,11 +50,12 @@ const PageWrapper = styled.div`
   position: relative;
   box-sizing: border-box;
   background-color: #ffda49;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
 
-  padding-top: 182px;
+  padding-top: 5rem;
 
   & > img:first-child {
     margin: 0 auto;

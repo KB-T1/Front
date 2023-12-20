@@ -150,7 +150,6 @@ export default function SignUp() {
         <>
           <Content>
             <H1>서비스 이용동의</H1>
-
             <CheckboxContainer
               onClick={() => {
                 setWholeCheck(!wholeCheck);
@@ -170,17 +169,17 @@ export default function SignUp() {
                 {el.text}
               </Checkbox>
             ))}
+            {btnActivate && (
+              <ButtonYellow
+                onClick={() => {
+                  setSignupStage(1);
+                }}
+              >
+                확인
+              </ButtonYellow>
+            )}
+            {!btnActivate && <ButtonGray>전체 동의가 필요합니다.</ButtonGray>}
           </Content>
-          {btnActivate && (
-            <ButtonYellow
-              onClick={() => {
-                setSignupStage(1);
-              }}
-            >
-              확인
-            </ButtonYellow>
-          )}
-          {!btnActivate && <ButtonGray>전체 동의가 필요합니다.</ButtonGray>}
         </>
       )}
       {signupStage === 1 && (
@@ -222,7 +221,7 @@ export default function SignUp() {
               <P3>선택된 프로필</P3>
               <img src={profileMatcher(profile)} alt="profile" width={100} />
             </SelectedProfile>
-            <SelectProfile setProfile={setProfile}></SelectProfile>
+            <SelectProfile setProfile={setProfile}></SelectProfile>{" "}
             <ButtonYellow
               onClick={() => {
                 setSignupStage(signupStage + 1);
@@ -355,7 +354,8 @@ const Content = styled.div`
   width: 353px;
   flex-direction: column;
 
-  margin-left: 20px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 36px;
 
   & > hr {
@@ -365,6 +365,13 @@ const Content = styled.div`
   }
   & > h1 {
     margin-bottom: 20px;
+  }
+
+  & > button {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 2.5rem;
   }
 `;
 
@@ -377,16 +384,22 @@ const CheckboxContainer = styled.div`
     margin-left: 10px;
   }
 `;
-const ModalContent = styled.div`
-  background-color: white;
 
-  padding: 20px;
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 353px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 36px;
   border-radius: 20px;
 
   & > button {
     position: fixed;
-    bottom: 41px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 2.5rem;
   }
 
   & > p {

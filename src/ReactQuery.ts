@@ -88,7 +88,7 @@ async function getUser(params: GetUserParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const user = await response.data.json();
+  const user = response.data;
 
   return user;
 }
@@ -117,12 +117,14 @@ async function getFamily(params: FamilyInfoParams) {
     throw new Error("user id not exist");
   }
 
-  const response = await axios.get(`${baseUrl}/family/user/${localStorageUserId}`);
+  const response = await axios.get(
+    `${baseUrl}/family/user/${localStorageUserId}`
+  );
 
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const familyInfoList = await response.data.json();
+  const familyInfoList = response.data;
 
   return familyInfoList;
 }
@@ -156,7 +158,7 @@ async function getTransferAll(params: TransferAllParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const TransferList = await response.data.json();
+  const TransferList = response.data;
 
   return TransferList;
 }
@@ -258,15 +260,16 @@ interface UploadVideoParams {
 async function uploadVideo(params: UploadVideoParams) {
   const [, { info }] = params.queryKey;
 
-  try{
+  try {
     const formData = new FormData();
-    formData.append('video', info.video, 'video.webm')
-    formData.append('senderId', String(info.senderId));
-    formData.append('receiverId', String(info.receiverId));
-    const response = await axios.post(historyUrl + `/with`, formData, { headers: {
-      'Content-Type' : 'multipart/form-data',
-  },}
-  );
+    formData.append("video", info.video, "video.webm");
+    formData.append("senderId", String(info.senderId));
+    formData.append("receiverId", String(info.receiverId));
+    const response = await axios.post(historyUrl + `/with`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     if (response.status !== 200) {
       throw new Error("Problem fetching data");
@@ -274,20 +277,15 @@ async function uploadVideo(params: UploadVideoParams) {
     const videoUrl = await response.data.json();
 
     return videoUrl;
-  }
-  catch (e){
+  } catch (e) {
     throw new Error("form-data error");
   }
 }
 
-export const useUploadVideo = (
-  conditions: UploadVideoCondition
-) => {
-  return useQuery<String, Error>(
-    ["uploadVideo", conditions],
-    () =>
-      uploadVideo({
-        queryKey: ["uploadVideo", { info: conditions }],
-      })
+export const useUploadVideo = (conditions: UploadVideoCondition) => {
+  return useQuery<String, Error>(["uploadVideo", conditions], () =>
+    uploadVideo({
+      queryKey: ["uploadVideo", { info: conditions }],
+    })
   );
 };

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ButtonGray = styled.button`
-  width: 353px;
+  width: 90%;
   height: 52px;
   background-color: #bababa;
 
@@ -14,11 +14,11 @@ export const ButtonGray = styled.button`
 
   font-size: 16px;
   font-family: "KBFGDisplayM";
-  margin: 0;
+  margin: 0 auto;
 `;
 
 export const ButtonYellow = styled.button`
-  width: 353px;
+  width: 90%;
   height: 52px;
   background-color: #ffda49;
 
@@ -31,5 +31,6 @@ export const ButtonYellow = styled.button`
 
   font-size: 16px;
   font-family: "KBFGDisplayM";
-  margin: 0;
+
+  margin: 0 auto;
 `;
