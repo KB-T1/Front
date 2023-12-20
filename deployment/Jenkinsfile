@@ -28,7 +28,7 @@ podTemplate(
 {
 	node(label) {
 		stage("Get Source") {
-			git branch: 'main', url: 'https://github.com/happykubepia/FrontEnd.git'
+			git branch: 'main', url: 'https://github.com/KB-T1/Front.git'
         } 
 
 		//-- Read pipeline.properties and setting variables
