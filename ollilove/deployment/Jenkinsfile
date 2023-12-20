@@ -1,5 +1,5 @@
 
-def label = "kbt1-ollilove-front-${env.BUILD_NUMBER}"
+def label = "ollilove-front-${env.BUILD_NUMBER}"
 
 /* -------- functions ---------- */
 def notifySlack(STATUS, COLOR) {
@@ -17,18 +17,18 @@ podTemplate(
 		containerTemplate(name: 'podman', image: 'mgoltzsche/podman', ttyEnabled: true, command: 'cat', privileged: true)
 	],
 	// volume mount
-	/*
+	
 	volumes: [
 		nfsVolume( mountPath: '/root/.npm', serverAddress: '10.193.24.247', serverPath: '/users/data/jenkins/.npm', readOnly: false ),
 		nfsVolume( mountPath: '/root/.yarn', serverAddress: '10.193.24.247', serverPath: '/users/data/jenkins/.yarn', readOnly: false )
     ]
-	*/
+	
 ) 
 
 {
 	node(label) {
 		stage("Get Source") {
-			git branch: 'main', url: 'https://github.com/KB-T1/FrontEnd.git', credentialsId: "github_kbt1_token"
+			git branch: 'main', url: 'https://github.com/happykubepia/FrontEnd.git'
         } 
 
 		//-- Read pipeline.properties and setting variables
