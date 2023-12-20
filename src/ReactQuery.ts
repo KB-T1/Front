@@ -150,9 +150,11 @@ async function getTransferAll(params: TransferAllParams) {
     throw new Error("user id not exist");
   }
 
-  const response = await axios.post(historyUrl, {
-    userId: localStorageUserId,
-    count: 10,
+  const response = await axios.get(historyUrl, {
+    params: {
+      userId: localStorageUserId,
+      count: 10,
+    },
   });
 
   if (response.status !== 200) {

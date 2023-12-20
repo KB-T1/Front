@@ -372,6 +372,8 @@ const Content = styled.div`
     left: 50%;
     transform: translate(-50%, 0);
     bottom: 2.5rem;
+    width: 90%;
+    max-width: 420px;
   }
 `;
 
@@ -398,6 +400,8 @@ const ModalContent = styled.div`
   & > button {
     position: fixed;
     left: 50%;
+    width: 90%;
+    max-width: 420px;
     transform: translate(-50%, 0);
     bottom: 2.5rem;
   }
