@@ -11,7 +11,7 @@ notifySlack("STARTED", "#FFFF00")
 podTemplate(
 	label: label, 
 	containers: [
-		containerTemplate(name: "node", image: "node:20.10.0", ttyEnabled: true, command: "cat"),
+		containerTemplate(name: "node", image: "node:alpine", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "trivy", image: "aquasec/trivy", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
 		containerTemplate(name: 'podman', image: 'mgoltzsche/podman', ttyEnabled: true, command: 'cat', privileged: true)
@@ -49,9 +49,10 @@ podTemplate(
 			
 			stage("Build React Scripts") {
 				container("node") {
-					//sh "yarn install --cache-folder /root/.yarn"
-					sh "yarn install"
+					sh "yarn install --cache-folder /root/.yarn"
+					//sh "yarn install"
 					sh "npm install"
+					sh "npm i --save-dev @types/styled-components"
 					sh "yarn build"
 				}
 			}
