@@ -36,7 +36,7 @@ async function signUpfunc(params: UserParams) {
     ...info,
   });
   if (response.status == 200) {
-    const data = await response.data;
+    const data = response.data;
     console.log(data);
 
     localStorage.setItem("userId", data.data.userId);
@@ -191,7 +191,7 @@ async function getAccount(params: GetAccountParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const account = await response.data.json();
+  const account = response.data;
 
   return account;
 }
@@ -230,7 +230,7 @@ async function getTransferPersonal(params: TransferPersonalParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const TransferList = await response.data.json();
+  const TransferList = response.data;
 
   return TransferList;
 }
@@ -276,7 +276,7 @@ async function uploadVideo(params: UploadVideoParams) {
     if (response.status !== 200) {
       throw new Error("Problem fetching data");
     }
-    const videoUrl = await response.data.json();
+    const videoUrl = response.data;
 
     return videoUrl;
   } catch (e) {
