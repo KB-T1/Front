@@ -32,7 +32,7 @@ podTemplate(
         } 
 
 		//-- Read pipeline.properties and setting variables
-		def props = readProperties  file:"ollilove/deployment/pipeline.properties"
+		def props = readProperties  file:"deployment/pipeline.properties"
 		
 		credentialRegistry=props["credentialRegistry"]
 		registry=props["registry"]
@@ -48,9 +48,9 @@ podTemplate(
 			
 			stage("Build React Scripts") {
 				container("node") {
-					sh "yarn install --cache-folder /root/.yarn --modules-folder ./ollilove"
-					sh "npm install --prefix ./ollilove"
-					sh "npm run build --prefix ./ollilove"
+					sh "yarn install --cache-folder /root/.yarn --modules-folder ."
+					sh "npm install --prefix ."
+					sh "npm run build --prefix ."
 				}
 			}
 			
@@ -64,7 +64,7 @@ podTemplate(
 						)]) {
 						    sh 'echo user "$USER" pasword "$PASSWORD"'
 						    sh "podman login ${registry} --username ${USER} --password ${PASSWORD}"
-							sh "podman build -f ./ollilove/deployment/Dockerfile-cicd -t ${registry}/${organization}/${repository}:${tag} ."
+							sh "podman build -f ./deployment/Dockerfile-cicd -t ${registry}/${organization}/${repository}:${tag} ."
 							sh "sleep 2"
 							sh "podman push ${registry}/${organization}/${repository}:${tag}"
 							sh "podman tag ${registry}/${organization}/${repository}:${tag} ${registry}/${organization}/${repository}:latest"
