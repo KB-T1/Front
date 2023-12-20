@@ -49,8 +49,10 @@ podTemplate(
 			stage("Build React Scripts") {
 				container("node") {
 					sh "yarn install --cache-folder /root/.yarn"
+					//sh "yarn install"
 					sh "npm install"
-					sh "npm run build"
+					sh "npm i --save-dev @types/styled-components"
+					sh "yarn build"
 				}
 			}
 			
