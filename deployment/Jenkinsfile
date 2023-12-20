@@ -50,7 +50,7 @@ podTemplate(
 				container("node") {
 					sh "yarn install --cache-folder /root/.yarn"
 					sh "npm install"
-					sh "npm run build"
+					sh "yarn build"
 				}
 			}
 			
