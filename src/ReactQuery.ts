@@ -9,11 +9,11 @@ import axios from "axios";
 const baseUrl = "http://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/";
 const userUrl = "http://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/user/";
 const transferUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/api/transfer-api/";
+  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/transfer/";
 const historyUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/api/transfer-api/history";
+  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/history/";
 const accountUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/api/transfer-api/account/";
+  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/account/";
 
 // **** GET/POST 맞는지 확인
 // **** 파라미터 확인
@@ -220,7 +220,7 @@ async function getTransferPersonal(params: TransferPersonalParams) {
   if (!localStorageUserId) {
     throw new Error("user id not exist");
   }
-  const response = await axios.get(historyUrl + `/with`, {
+  const response = await axios.get(historyUrl + `with`, {
     params: {
       targetUserId: params.queryKey[1].info.targetUserId,
       userId: localStorageUserId,
@@ -267,7 +267,7 @@ async function uploadVideo(params: UploadVideoParams) {
     formData.append("video", info.video, "video.webm");
     formData.append("senderId", String(info.senderId));
     formData.append("receiverId", String(info.receiverId));
-    const response = await axios.post(historyUrl + `/with`, formData, {
+    const response = await axios.post(transferUrl + `/new`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
