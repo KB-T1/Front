@@ -17,16 +17,22 @@ interface TransferBtnProps {
   onClickDetailBtn: () => void;
 }
 
-export function TransferBtn({ profile, name, relationship }: TransferBtnProps) {
+export function TransferBtn({
+  profile,
+  name,
+  relationship,
+  onClickTransferBtn,
+  onClickDetailBtn,
+}: TransferBtnProps) {
   return (
     <TransferBtnContainer>
-      <TopContainer>
-        <img src={profileMatcher(profile)} />
+      <TopContainer onClick={onClickDetailBtn}>
+        <img src={profileMatcher(profile)} width={32} />
         <P2>{name}</P2>
         <Comment>{relationship}</Comment>
         <img src={smallFront} />
       </TopContainer>
-      <BottomContainer>
+      <BottomContainer onClick={onClickDetailBtn}>
         <P3>마음전하기</P3>
         <img src={yellowHeart} />
       </BottomContainer>

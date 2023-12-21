@@ -74,7 +74,13 @@ export default function Home() {
     <HomeContainer>
       <NotifyBar
         onClick={() => {
-          navigate("/receiveheart");
+          navigate("/receiveheart", {
+            state: {
+              userName: "이수민",
+              nickName: "작은 딸",
+              amount: 500000,
+            },
+          });
         }}
       >
         새로운 마음이 도착했어요!
@@ -84,17 +90,25 @@ export default function Home() {
         <div>
           {familyInfoQuery.isSuccess ? (
             familydata.map((el, i) => {
+              if (el.userId === userId) {
+                return <></>;
+              }
+
               return (
                 <TransferBtn
                   key={i}
                   profile={el.profile}
                   name={el.userName}
-                  relationship={el.nickName}
+                  relationship={el.nickname}
                   onClickDetailBtn={() => {
-                    navigate("/familymemberdetail", { state: el.userId });
+                    navigate(`/familymemberdetail/`, {
+                      state: el.userId,
+                    });
                   }}
                   onClickTransferBtn={() => {
-                    navigate("/transferamountinput", { state: el.userId });
+                    navigate(`/transferamountinput/`, {
+                      state: el.userId,
+                    });
                   }}
                 ></TransferBtn>
               );

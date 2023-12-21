@@ -19,6 +19,53 @@ const accountUrl =
 // **** 파라미터 확인
 // **** 변수명 확인
 
+// 별명 정하기
+interface RelationCondition {
+  targeterId: number;
+  targetedId: number;
+  nickname: string;
+}
+
+interface RelationParams {
+  queryKey: [string, { info: RelationCondition }];
+}
+
+async function postRelationfunc(params: RelationParams) {
+  const [, { info }] = params.queryKey;
+  const response = await axios.post(`${baseUrl}relation`, {
+    ...info,
+  });
+  if (response.status == 200) {
+    const data = response.data;
+    console.log(data);
+
+    return data;
+  } else {
+    throw new Error("Problem fetching data");
+  }
+}
+
+export const useRelation = (conditions: RelationCondition) => {
+  return useMutation<User, Error>(
+    ["relation", conditions],
+    () => postRelationfunc({ queryKey: ["signup", { info: conditions }] }),
+    {
+      onSuccess: () => {
+        console.log(
+          "성공",
+          conditions.nickname,
+          conditions.targetedId,
+          conditions.targeterId
+        );
+      },
+      onError: (e) => {
+        console.log(e);
+        alert("에러");
+      },
+    }
+  );
+};
+
 // 회원가입 관련 query
 interface SignUpCondition {
   userName: string;

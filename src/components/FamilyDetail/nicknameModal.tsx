@@ -5,16 +5,34 @@ import esc from "../../assets/esc.png";
 import { TextArea1 } from "../../commons/TextArea1";
 import { ButtonYellow } from "../../commons/Button";
 import { genName } from "../../utils/genName";
+import { useRelation } from "../../ReactQuery";
+import { FamilyMember } from "../../types/familyMember";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   nickName: string;
   setNickName: (str: string) => void;
+  member?: FamilyMember;
+  targeterId: number;
+  targetedId: number;
 }
 
-export function Modal({ nickName, setNickName, isOpen, onClose }: ModalProps) {
+export function Modal({
+  targeterId,
+  targetedId,
+  nickName,
+  setNickName,
+  member,
+  isOpen,
+  onClose,
+}: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const relation = useRelation({
+    targetedId: targetedId,
+    targeterId: targeterId,
+    nickname: nickName ? nickName : "",
+  });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,6 +52,12 @@ export function Modal({ nickName, setNickName, isOpen, onClose }: ModalProps) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (relation.isSuccess) {
+      setNickName(nickName);
+    }
+  }, [relation.isSuccess]);
 
   const handleModalContentClick = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -55,6 +79,7 @@ export function Modal({ nickName, setNickName, isOpen, onClose }: ModalProps) {
             if (!nickName) {
               setNickName(genName());
             } else {
+              relation.mutate();
               onClose();
             }
           }}
