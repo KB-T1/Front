@@ -130,6 +130,7 @@ export default function FamilyMemberDetail({
 
       <RecordHeartBox>
         <H3>주고받은 마음</H3>
+
         {transferData.map((el, i) => {
           return (
             <RecentBtn
@@ -149,6 +150,7 @@ export default function FamilyMemberDetail({
       </RecordHeartBox>
       {isOpen && <ModalBox></ModalBox>}
       <Modal
+        setTransferData={setTransferData}
         targetedId={targetId}
         targeterId={myId}
         nickName={nickName}

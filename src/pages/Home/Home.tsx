@@ -131,7 +131,7 @@ export default function Home() {
                 relationship={el.senderId === userId ? el.receiverNickName : el.senderNickName}
                 amount={el.amount}
                 time={el.createdAt}
-                heart={false}
+                heart={el.amount === -1 ? true : false}
                 onClickTransfer={() => {
                   navigate("/receiveheart", {
                     state: {

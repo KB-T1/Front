@@ -28,12 +28,12 @@ export function RecentBtn({
         <img src={profileBibi} />
         <div>
           <P2>
-            {name}({relationship}){amount && amount > 0 ? "에게" : "로부터"}
+            {name}({relationship}){amount && amount > 0 ? "로부터" : "에게"}
           </P2>
           <Comment2>{time}</Comment2>
         </div>
       </div>
-      {amount && (
+      {amount && heart === false && (
         <P2 className={amount > 0 ? "send" : "receive"}>
           {Math.abs(amount).toLocaleString()}원
         </P2>
