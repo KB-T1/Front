@@ -24,7 +24,7 @@ export default function ResponseConfirm() {
   const transferListQuery = useGetTransferPersonal({targetUserId:receiverId});
   const transferList = transferListQuery.data as TransferInfo[];
   const transferInfo = transferList.filter((el) => {
-    return el.transferId === transferId
+    return el.historyId === transferId
   })[transferList.length-1]
 
   const onClickHandler = () => {
@@ -53,7 +53,7 @@ export default function ResponseConfirm() {
           <Navbar type="back"> </Navbar>
           <Header>
             <H3>
-              {transferInfo.receiverName}({transferInfo.nickname}) 님에게
+              {transferInfo.senderName}({transferInfo.senderNickName}) 님에게
             </H3>
             <H3>답장을 보낼게요.</H3>
           </Header>
@@ -76,7 +76,7 @@ export default function ResponseConfirm() {
         <>
           <Header2>
             <H3>
-              {transferInfo.receiverName}({transferInfo.nickname}) 님에게
+              {transferInfo.senderName}({transferInfo.senderNickName}) 님에게
             </H3>
             <H3>답장을 보냈어요.</H3>
           </Header2>
