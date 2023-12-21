@@ -118,7 +118,7 @@ async function getFamily(params: FamilyInfoParams) {
   }
 
   const response = await axios.get(
-    `${baseUrl}/family/user/${localStorageUserId}`
+    `${baseUrl}family/user/${localStorageUserId}`
   );
 
   if (response.status !== 200) {
