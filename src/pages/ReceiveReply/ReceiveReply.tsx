@@ -12,7 +12,7 @@ export function ReceiveReply() {
   
   const member = {
     userName: "이수민",
-    nickName: "따님",
+    nickname: "따님",
   };
 
   return (
@@ -22,7 +22,7 @@ export function ReceiveReply() {
           <Navbar type="esc"> </Navbar>
           <Header>
             <H3>
-              {member.userName}({member.nickName}) 님이
+              {member.userName}({member.nickname}) 님이
             </H3>
             <H3>답장을 보냈어요.</H3>
           </Header>
@@ -50,7 +50,7 @@ export function ReceiveReply() {
           </Navbar>
           <Header2>
             <H3>
-              {member.userName}({member.nickName}) 님이 보낸 영상을 보고
+              {member.userName}({member.nickname}) 님이 보낸 영상을 보고
             </H3>
             <H3>용돈을 받아보세요.</H3>
           </Header2>

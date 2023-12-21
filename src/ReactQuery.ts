@@ -238,7 +238,7 @@ async function getAccount(params: GetAccountParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const account = response.data;
+  const account = response.data.data;
 
   return account;
 }
@@ -327,7 +327,7 @@ async function uploadVideo(params: UploadVideoParams) {
     if (response.status !== 200) {
       throw new Error("Problem fetching data");
     }
-    const videoUrl = response.data;
+    const videoUrl = response.data.data;
 
     return videoUrl;
   } catch (e) {
