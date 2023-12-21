@@ -15,7 +15,11 @@ export default function ReceiveHeart() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const member = location.state;
+
+  const member = location.state.member;
+  const memberId = member.memberId;
+  const targetId = location.state.targetId;
+  const transferId = location.state.transferId;
 
   return (
     <TransferConfirmContainer>
@@ -82,7 +86,11 @@ export default function ReceiveHeart() {
           </VideoBox>
           <ButtonYellow
             onClick={() => {
-              navigate("/responserecord");
+              navigate("/responserecord", {state: {
+                senderId: memberId,
+                receiverId: targetId,
+                transferId: transferId,
+              }});
             }}
           >
             영상편자로 답장하기

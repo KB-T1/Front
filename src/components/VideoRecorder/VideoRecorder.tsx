@@ -10,9 +10,13 @@ import { useNavigate } from "react-router-dom";
 
 interface VideoRecorderProps {
   isReply: boolean;
+  receiverId: number;
+  senderId: number;
+  amount: number;
+  transferId: number;
 }
 
-export default function VideoRecorder({ isReply }: VideoRecorderProps) {
+export default function VideoRecorder({ isReply, receiverId, senderId, amount }: VideoRecorderProps) {
 
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -112,7 +116,7 @@ const getMediaPermission = useCallback(async () => {
     reset();
 
     const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
-    navigate(`${navigateTo}`, {state: link.href});
+    navigate(`${navigateTo}`, {state: {videoUrl:link.href, senderId:senderId, receiverId: receiverId, amount: amount}});
   };
 
   //사용자 정의 Hook
