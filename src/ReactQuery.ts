@@ -9,9 +9,9 @@ import axios from "axios";
 const baseUrl = "http://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/";
 const userUrl = "http://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/user/";
 const transferUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/transfer/";
+  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/";
 const historyUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/history/";
+  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/history";
 const accountUrl =
   "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/account/";
 
