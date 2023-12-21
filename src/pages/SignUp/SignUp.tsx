@@ -313,7 +313,7 @@ export default function SignUp() {
       )}
       {signupStage === 6 && (
         <>
-          <Confetti width={420} height={720} />
+          <Confetti style={{ margin: "0 auto" }} width={420} height={720} />
           <ModalContent>
             <ModalHeader>
               <H2>올리사랑에 오신 것을 환영해요!</H2>

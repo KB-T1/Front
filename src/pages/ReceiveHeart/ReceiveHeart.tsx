@@ -81,7 +81,7 @@ export default function ReceiveHeart() {
       )}
       {onPlay === 2 && (
         <>
-          <Confetti width={420} height={720} />
+          <Confetti style={{ margin: "0 auto" }} width={420} height={720} />
           <Navbar type="esc"> </Navbar>
           <Header>
             <H3>
