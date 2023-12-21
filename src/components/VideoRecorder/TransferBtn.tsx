@@ -16,7 +16,7 @@ interface TransferBtnProps {
   onClickDetailBtn: () => void;
 }
 
-export function TransferBtn({ profile, name, relationship }: TransferBtnProps) {
+export function TransferBtn({ profile, name, relationship , onClickTransferBtn, onClickDetailBtn} : TransferBtnProps) {
   const profileConverter = (profile: string) => {
     if (profile === "lamu") {
       return profilePicLamu;
@@ -37,13 +37,13 @@ export function TransferBtn({ profile, name, relationship }: TransferBtnProps) {
 
   return (
     <TransferBtnContainer>
-      <TopContainer>
+      <TopContainer onClick={onClickDetailBtn}>
         <img src={profileConverter(profile)} />
         <P2>{name}</P2>
         <Comment>{relationship}</Comment>
         <img src={smallFront} />
       </TopContainer>
-      <BottomContainer>
+      <BottomContainer onClick={onClickTransferBtn}>
         <P3>마음전하기</P3>
         <img src={yellowHeart} />
       </BottomContainer>

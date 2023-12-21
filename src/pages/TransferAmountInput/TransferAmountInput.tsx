@@ -42,6 +42,10 @@ export default function TransferAmountInput() {
   const targetFamily = familyData.filter((el) => {
     return el === location.state;
   })[0];
+  
+  if (familyQuery.isFetching) {
+    return <div>isFetching..</div>
+  }
 
   return (
     <TransferAmountInputContainer>
