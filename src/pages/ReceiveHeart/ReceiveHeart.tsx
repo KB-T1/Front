@@ -71,6 +71,7 @@ export default function ReceiveHeart() {
           </Header2>
           <VideoBox>
             <img src={tmpVideo} alt="video" width={250} />
+            <video src={transfer.videoUrl} />
           </VideoBox>
           <ButtonYellow
             onClick={() => {
@@ -89,7 +90,11 @@ export default function ReceiveHeart() {
             <H3>
               {transfer.senderName}({transfer.senderNickName}) 님에게
             </H3>
-            <H3>{transfer.amount.toLocaleString()}원을 받았어요.</H3>
+            <H3>
+              {transfer.amount === -1
+                ? `마음을 받았어요.`
+                : `${transfer.amount.toLocaleString()}원을 받았어요.`}
+            </H3>
           </Header>
           <VideoBox>
             <img src={money} alt="letter" width={250} />

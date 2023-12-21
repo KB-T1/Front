@@ -55,7 +55,8 @@ const TabbarContainer = styled.div`
   display: flex;
   flex-direction: row;
 
-  width: 393px;
+  width: 100%;
+  max-width: 420px;
   height: 62px;
   border-top: 1px solid var(--gray4, #bababa);
 `;

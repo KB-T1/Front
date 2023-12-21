@@ -54,7 +54,7 @@ export default function Home() {
 
       setRecentTransferList(
         transferListQuery.data.filter((el) => {
-          return el.receiverId === userId;
+          return el.receiverId === userId && el.amount !== -1;
         })[0]
       );
     }
