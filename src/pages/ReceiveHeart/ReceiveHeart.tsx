@@ -11,6 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FamilyMember } from "../../types/familyMember";
 import { TransferInfo } from "../../types/transferInfo";
 import Confetti from "react-confetti";
+
 export default function ReceiveHeart() {
   const location = useLocation();
   const [onPlay, setOnPlay] = useState<number>(0);
@@ -70,8 +71,8 @@ export default function ReceiveHeart() {
             <H3>용돈을 받아보세요.</H3>
           </Header2>
           <VideoBox>
-            <img src={tmpVideo} alt="video" width={250} />
-            <video src={transfer.videoUrl} />
+            {/* <img src={tmpVideo} alt="video" width={250} /> */}
+            <video src="/assets/video1.mp4" width={250} autoPlay />
           </VideoBox>
           <ButtonYellow
             onClick={() => {
@@ -151,5 +152,9 @@ const VideoBox = styled.div`
 
   & > img {
     margin-bottom: 1rem;
+  }
+
+  & > video {
+    margin-top: 102px;
   }
 `;
