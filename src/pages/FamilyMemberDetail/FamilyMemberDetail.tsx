@@ -134,9 +134,9 @@ export default function FamilyMemberDetail({
           return (
             <RecentBtn
               key={i}
-              profile={el.senderId === userId ? el.receiverProfile : el.senderProfile}
-              name={el.senderId === userId ? el.receiverName : el.senderName}
-              relationship={el.senderId === userId ? el.receiverNickName : el.senderNickName}
+              profile={el.senderId === myId ? el.receiverProfile : el.senderProfile}
+              name={el.senderId === myId ? el.receiverName : el.senderName}
+              relationship={el.senderId === myId ? el.receiverNickName : el.senderNickName}
               amount={el.amount}
               time={el.createdAt}
               heart={false}
