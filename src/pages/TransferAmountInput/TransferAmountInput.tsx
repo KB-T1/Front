@@ -85,7 +85,14 @@ export default function TransferAmountInput() {
         출금 가능 금액: {myMoney.toLocaleString()}원
       </Comment>
       {amount > 0 && amount <= myMoney ? (
-        <ButtonYellow>확인</ButtonYellow>
+        <ButtonYellow
+        onClick={()=>{
+          navigate('/transferrecord', {state: {
+            senderId: userId,
+            receiverId:targetFamily.userId,
+            amount:amount
+          }})
+        }}>확인</ButtonYellow>
       ) : (
         <ButtonGray>확인</ButtonGray>
       )}

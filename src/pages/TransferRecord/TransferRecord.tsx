@@ -5,9 +5,16 @@ import { Navbar } from "../../commons/Navbar";
 import { H2 } from "../../commons/Text";
 import camera from "../../assets/camera.svg";
 import { ButtonYellow } from "../../commons/Button";
+import { useLocation } from "react-router-dom";
 
-export default function TransferConfirm() {
+export default function TransferRecord() {
   const [onRecord, setOnRecord] = useState<boolean>(false);
+  const location = useLocation();
+
+  const senderId = location.state.senderId;
+  const receiverId = location.state.receiverId;
+  const amount = location.state.amount;
+
   return (
     <>
       {!onRecord && (
@@ -25,7 +32,7 @@ export default function TransferConfirm() {
           </ButtonYellow>
         </TransferRecordContainer>
       )}
-      {onRecord && <VideoRecorder isReply={false} />}
+      {onRecord && <VideoRecorder isReply={false} transferId={-1} senderId={senderId} receiverId={receiverId} amount={amount}/>}
     </>
   );
 }

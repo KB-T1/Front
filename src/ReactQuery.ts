@@ -250,8 +250,10 @@ export const useGetTransferPersonal = (
 // 비디오 업로드 query
 
 interface UploadVideoCondition {
+  amount: number;
   senderId: number;
   receiverId: number;
+  transferId: number;
   video: Blob;
 }
 
@@ -265,8 +267,10 @@ async function uploadVideo(params: UploadVideoParams) {
   try {
     const formData = new FormData();
     formData.append("video", info.video, "video.webm");
+    formData.append("amount", String(info.amount));
     formData.append("senderId", String(info.senderId));
     formData.append("receiverId", String(info.receiverId));
+    formData.append("transferId", String(info.transferId));
     const response = await axios.post(transferUrl + `/new`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",

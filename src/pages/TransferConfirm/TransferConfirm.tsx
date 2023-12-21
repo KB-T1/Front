@@ -6,6 +6,7 @@ import tmpVideo from "../../assets/tmpVideo.svg";
 import { ButtonYellow } from "../../commons/Button";
 import heartLetter from "../../assets/heartLetter.svg";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useUploadVideo } from "../../ReactQuery";
 
 export default function TransferConfirm() {
 
@@ -14,7 +15,11 @@ export default function TransferConfirm() {
 
   const location = useLocation();
 
-  const videoUrl = location.state;
+  const videoUrl = location.state.videoUrl;
+  const senderId = location.state.senderId;
+  const receiverId = location.state.receiverId;
+  const amount = location.state.amount;
+  const transferId = -1
 
   const tmpData = {
     name: "이수민",
@@ -43,7 +48,19 @@ export default function TransferConfirm() {
           </VideoBox>
           <ButtonYellow
             onClick={() => {
-              setRealSend(true);
+              fetch(videoUrl)
+              .then(response => response.blob())
+              .then(blobData => {
+                // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
+                const blobObject = new Blob([blobData], { type: "video/webm" });
+                const uploadVideo = useUploadVideo({amount:amount, senderId:senderId, receiverId:receiverId, video:blobObject, transferId:transferId});
+                if (uploadVideo.isSuccess){
+                  setRealSend(true);
+                }
+              })
+              .catch(error => {
+                console.error("Error fetching Blob data:", error);
+              });
             }}
           >
             마음 보내기
