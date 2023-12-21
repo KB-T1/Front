@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { barState } from "../states/barstate";
@@ -7,6 +8,7 @@ import { Comment2 } from "./Text";
 export function Tabbar() {
   const [tabbarState, setTabbarState] = useRecoilState(barState);
 
+  const navigate = useNavigate();
   const handleClick = (content: string) => {
     setTabbarState(content);
   };
@@ -16,6 +18,7 @@ export function Tabbar() {
       <TabButton
         onClick={() => {
           handleClick("home");
+          navigate("/home");
         }}
         state={tabbarState}
         content="home"
@@ -25,11 +28,22 @@ export function Tabbar() {
       <TabButton
         onClick={() => {
           handleClick("video");
+          navigate("/video");
         }}
         state={tabbarState}
         content="video"
       >
         <Comment2>보관함</Comment2>
+      </TabButton>
+      <TabButton
+        onClick={() => {
+          handleClick("calendar");
+          navigate("/calendar");
+        }}
+        state={tabbarState}
+        content="calendar"
+      >
+        <Comment2>캘린더</Comment2>
       </TabButton>
     </TabbarContainer>
   );
@@ -68,9 +82,13 @@ const TabButton = styled.button<{
       ? props.state === "home"
         ? "url('../assets/homeSelected.png');"
         : "url('../assets/homeDefault.png');"
-      : props.state === "video"
-      ? "url('../assets/videoSelected.png');"
-      : "url('../assets/videoDefault.png');"};
+      : props.content === "video"
+        ? props.state === "video"
+          ? "url('../assets/videoSelected.png');"
+          : "url('../assets/videoDefault.png');"
+        : props.state === "calendar"
+          ? "url('../assets/calendarSelected.png');"
+          : "url('../assets/calendarDefault.png');"};
 
   background-position: center 10px;
   background-size: 24px;

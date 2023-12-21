@@ -15,6 +15,7 @@ import ReceiveHeart from "./pages/ReceiveHeart/ReceiveHeart";
 import ResponseRecord from "./pages/ResponseRecord/ResponseRecord";
 import ResponseConfirm from "./pages/ResponseConfirm/ResponseConfirm";
 import SignUp from "./pages/SignUp/SignUp";
+import Calendar from "./pages/Calendar/Calendar";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/familymemberdetail" element={<FamilyMemberDetail />} />
           <Route path="/shortsdetail" element={<ShortsDetail />} />
           <Route path="/shortslist" element={<ShortsList />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route
             path="/transferAmountinput"
             element={<TransferAmountInput />}
