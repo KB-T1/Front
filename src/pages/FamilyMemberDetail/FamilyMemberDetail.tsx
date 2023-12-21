@@ -135,12 +135,16 @@ export default function FamilyMemberDetail({
           return (
             <RecentBtn
               key={i}
-              profile={el.senderId === myId ? el.receiverProfile : el.senderProfile}
+              profile={
+                el.senderId === myId ? el.receiverProfile : el.senderProfile
+              }
               name={el.senderId === myId ? el.receiverName : el.senderName}
-              relationship={el.senderId === myId ? el.receiverNickName : el.senderNickName}
+              relationship={
+                el.senderId === myId ? el.receiverNickName : el.senderNickName
+              }
               amount={el.amount}
               time={el.createdAt}
-              heart={false}
+              heart={el.amount === -1 ? true : false}
               onClickTransfer={() => {
                 navigate("/receiveheart", { state: el });
               }}

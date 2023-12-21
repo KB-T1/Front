@@ -14,9 +14,7 @@ import Confetti from "react-confetti";
 export default function ReceiveHeart() {
   const location = useLocation();
   const [onPlay, setOnPlay] = useState<number>(0);
-  const [transfer, setTransfer] = useState<TransferInfo>(
-    location.state.transferInfo
-  );
+  const [transfer, setTransfer] = useState<TransferInfo>(location.state);
 
   const targetId = location.state.targetId;
   const transferId = location.state.transferId;
@@ -24,7 +22,7 @@ export default function ReceiveHeart() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(transfer);
+    console.log("transfer", transfer);
   }, []);
 
   return (
@@ -34,9 +32,13 @@ export default function ReceiveHeart() {
           <Navbar type="esc"> </Navbar>
           <Header>
             <H3>
-              {transfer.senderName}({transfer.senderNickName}) 님이
+              {transfer?.senderName}({transfer?.senderNickName}) 님이
             </H3>
-            <H3>{transfer.amount.toLocaleString()}원과 마음을 보냈어요.</H3>
+            <H3>
+              {transfer.amount === -1
+                ? "마음을 보냈어요"
+                : `${transfer?.amount.toLocaleString()}원과 마음을 보냈어요.`}
+            </H3>
           </Header>
           <VideoBox>
             <img src={heartLetter} alt="letter" width={120} />

@@ -28,7 +28,7 @@ export function RecentBtn({
         <img src={profileBibi} />
         <div>
           <P2>
-            {name}({relationship}){amount && amount > 0 ? "로부터" : "에게"}
+            {name}({relationship}){amount && amount > 0 ? "에게" : "로부터"}
           </P2>
           <Comment2>{time}</Comment2>
         </div>

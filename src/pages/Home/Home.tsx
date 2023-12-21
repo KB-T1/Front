@@ -24,6 +24,7 @@ export default function Home() {
 
   const [familydata, setFamilyData] = useState<FamilyMember[]>([]);
   const [transferList, setTransferList] = useState<TransferInfo[]>();
+  const [recentTransferList, setRecentTransferList] = useState<TransferInfo>();
   const familyInfoQuery = useGetFamilyInfo({});
   const transferListQuery = useGetTransferAll({});
 
@@ -50,6 +51,12 @@ export default function Home() {
     if (transferListQuery.isSuccess) {
       setTransferList(transferListQuery.data);
       console.log(transferList);
+
+      setRecentTransferList(
+        transferListQuery.data.filter((el) => {
+          return el.receiverId === userId;
+        })[0]
+      );
     }
   }, [transferListQuery.isSuccess]);
 
@@ -72,19 +79,17 @@ export default function Home() {
 
   return (
     <HomeContainer>
-      <NotifyBar
-        onClick={() => {
-          navigate("/receiveheart", {
-            state: {
-              userName: "이수민",
-              nickName: "작은 딸",
-              amount: 500000,
-            },
-          });
-        }}
-      >
-        새로운 마음이 도착했어요!
-      </NotifyBar>
+      {recentTransferList && (
+        <NotifyBar
+          onClick={() => {
+            navigate("/receiveheart", {
+              state: recentTransferList,
+            });
+          }}
+        >
+          새로운 마음이 도착했어요!
+        </NotifyBar>
+      )}
       <TransferContainer>
         <H3>영상으로 마음전하기</H3>
         <div>
@@ -126,9 +131,15 @@ export default function Home() {
             return (
               <RecentBtn
                 key={i}
-                profile={el.senderId === userId ? el.receiverProfile : el.senderProfile}
+                profile={
+                  el.senderId === userId ? el.receiverProfile : el.senderProfile
+                }
                 name={el.senderId === userId ? el.receiverName : el.senderName}
-                relationship={el.senderId === userId ? el.receiverNickName : el.senderNickName}
+                relationship={
+                  el.senderId === userId
+                    ? el.receiverNickName
+                    : el.senderNickName
+                }
                 amount={el.amount}
                 time={el.createdAt}
                 heart={el.amount === -1 ? true : false}
@@ -142,7 +153,10 @@ export default function Home() {
                         el.senderId === userId
                           ? el.receiverName
                           : el.senderName,
-                      nickname: el.senderId === userId ? el.receiverNickName : el.senderNickName,
+                      nickname:
+                        el.senderId === userId
+                          ? el.receiverNickName
+                          : el.senderNickName,
                     },
                   });
                 }}
