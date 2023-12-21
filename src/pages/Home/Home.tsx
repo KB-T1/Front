@@ -126,11 +126,11 @@ export default function Home() {
             return (
               <RecentBtn
                 key={i}
-                profile={el.profile}
+                profile={el.senderId === userId ? el.receiverProfile : el.senderProfile}
                 name={el.senderId === userId ? el.receiverName : el.senderName}
-                relationship={el.nickname}
+                relationship={el.senderId === userId ? el.receiverNickName : el.senderNickName}
                 amount={el.amount}
-                time={el.historyCreatedAt}
+                time={el.createdAt}
                 heart={el.amount === -1 ? true : false}
                 onClickTransfer={() => {
                   navigate("/receiveheart", {
@@ -142,7 +142,7 @@ export default function Home() {
                         el.senderId === userId
                           ? el.receiverName
                           : el.senderName,
-                      nickname: el.nickname,
+                      nickname: el.senderId === userId ? el.receiverNickName : el.senderNickName,
                     },
                   });
                 }}
