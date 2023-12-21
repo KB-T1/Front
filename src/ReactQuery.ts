@@ -220,7 +220,7 @@ async function getTransferPersonal(params: TransferPersonalParams) {
   if (!localStorageUserId) {
     throw new Error("user id not exist");
   }
-  const response = await axios.get(historyUrl + `/with`, {
+  const response = await axios.get(historyUrl + `with`, {
     params: {
       targetUserId: params.queryKey[1].info.targetUserId,
       userId: localStorageUserId,
@@ -267,7 +267,7 @@ async function uploadVideo(params: UploadVideoParams) {
     formData.append("video", info.video, "video.webm");
     formData.append("senderId", String(info.senderId));
     formData.append("receiverId", String(info.receiverId));
-    const response = await axios.post(historyUrl + `/with`, formData, {
+    const response = await axios.post(transferUrl + `/new`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
