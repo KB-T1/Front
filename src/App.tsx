@@ -23,11 +23,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/familymemberdetail/" element={<FamilyMemberDetail />} />
+          <Route path="/familymemberdetail" element={<FamilyMemberDetail />} />
           <Route path="/shortsdetail" element={<ShortsDetail />} />
           <Route path="/shortslist" element={<ShortsList />} />
           <Route
-            path="/transferAmountinput/"
+            path="/transferAmountinput"
             element={<TransferAmountInput />}
           />
           <Route path="/transferconfirm" element={<TransferConfirm />} />

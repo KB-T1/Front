@@ -32,7 +32,7 @@ export function TransferBtn({
         <Comment>{relationship}</Comment>
         <img src={smallFront} />
       </TopContainer>
-      <BottomContainer onClick={onClickDetailBtn}>
+      <BottomContainer onClick={onClickTransferBtn}>
         <P3>마음전하기</P3>
         <img src={yellowHeart} />
       </BottomContainer>

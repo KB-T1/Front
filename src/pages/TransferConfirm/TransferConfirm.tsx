@@ -6,6 +6,7 @@ import tmpVideo from "../../assets/tmpVideo.svg";
 import { ButtonYellow } from "../../commons/Button";
 import heartLetter from "../../assets/heartLetter.svg";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useUploadVideo } from "../../ReactQuery";
 
 export default function TransferConfirm() {
 
@@ -14,13 +15,35 @@ export default function TransferConfirm() {
 
   const location = useLocation();
 
-  const videoUrl = location.state;
+  const videoUrl = location.state.videoUrl;
+  const senderId = location.state.senderId;
+  const receiverId = location.state.receiverId;
+  const amount = location.state.amount;
+  const transferId = -1
 
   const tmpData = {
     name: "이수민",
     relationship: "따님",
     amount: 500000,
   };
+
+  const onClickHandler = () => {
+    setRealSend(true);
+  }
+  
+  const TransferEvent = async() => {
+  const response = await fetch(videoUrl);
+  const blobData = await response.blob();
+    // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
+    const blobObject = new Blob([blobData], { type: "video/webm" });
+    const uploadVideo = useUploadVideo({amount:amount, senderId:senderId, receiverId:receiverId, video:blobObject, transferId:-1});
+    if (uploadVideo.isSuccess){
+      console.log('success')
+    }
+}
+  useEffect(()=>{
+    TransferEvent();
+  }, [onClickHandler])
 
   return (
     <TransferConfirmContainer>
@@ -42,9 +65,7 @@ export default function TransferConfirm() {
             </span>
           </VideoBox>
           <ButtonYellow
-            onClick={() => {
-              setRealSend(true);
-            }}
+            onClick={onClickHandler}
           >
             마음 보내기
           </ButtonYellow>

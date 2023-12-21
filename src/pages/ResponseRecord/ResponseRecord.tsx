@@ -5,9 +5,17 @@ import { Navbar } from "../../commons/Navbar";
 import { H2 } from "../../commons/Text";
 import camera from "../../assets/camera.svg";
 import { ButtonYellow } from "../../commons/Button";
+import { useLocation } from "react-router-dom";
 
 export default function ResponseRecord() {
   const [onRecord, setOnRecord] = useState<boolean>(false);
+
+  const location = useLocation();
+
+  const senderId = location.state.senderId;
+  const receiverId = location.state.receiverId;
+  const transferId = location.state.transferId;
+
   return (
     <>
       {!onRecord && (
@@ -25,7 +33,7 @@ export default function ResponseRecord() {
           </ButtonYellow>
         </TransferRecordContainer>
       )}
-      {onRecord && <VideoRecorder isReply={true} />}
+      {onRecord && <VideoRecorder isReply={false} transferId={transferId} senderId={senderId} receiverId={receiverId} amount={-1}/>}
     </>
   );
 }

@@ -6,19 +6,45 @@ import tmpVideo from "../../assets/tmpVideo.svg";
 import { ButtonYellow } from "../../commons/Button";
 import heartLetter from "../../assets/heartLetter.svg";
 import { useLocation } from "react-router-dom";
-
+import { useUploadVideo } from "../../ReactQuery";
+import { QueryClient } from "react-query";
+import { useGetTransferPersonal } from "../../ReactQuery";
+import { TransferInfo } from "../../types/transferInfo";
 export default function ResponseConfirm() {
   const [realSend, setRealSend] = useState<boolean>(false);
 
   const location = useLocation();
 
-  const videoUrl = location.state;
+  const queryClient = new QueryClient();
+  const videoUrl = location.state.videoUrl;
+  const senderId = location.state.senderId;
+  const receiverId:number = location.state.receiverId;
+  const transferId = location.state.transferId;
 
-  const tmpData = {
-    name: "이수민",
-    relationship: "따님",
-    amount: 500000,
-  };
+  const transferListQuery = useGetTransferPersonal({targetUserId:receiverId});
+  const transferList = transferListQuery.data as TransferInfo[];
+  const transferInfo = transferList.filter((el) => {
+    return el.transferId === transferId
+  })[transferList.length-1]
+
+  const onClickHandler = () => {
+    setRealSend(true);
+  }
+  
+  const TransferEvent = async() => {
+  const response = await fetch(videoUrl);
+  const blobData = await response.blob();
+    // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
+    const blobObject = new Blob([blobData], { type: "video/webm" });
+    const uploadVideo = useUploadVideo({amount:-1, senderId:senderId, receiverId:receiverId, video:blobObject, transferId:transferId});
+    if (uploadVideo.isSuccess){
+      console.log('success')
+    }
+}
+  useEffect(()=>{
+    TransferEvent();
+  }, [onClickHandler])
+
 
   return (
     <TransferConfirmContainer>
@@ -27,7 +53,7 @@ export default function ResponseConfirm() {
           <Navbar type="back"> </Navbar>
           <Header>
             <H3>
-              {tmpData.name}({tmpData.relationship}) 님에게
+              {transferInfo.receiverName}({transferInfo.nickname}) 님에게
             </H3>
             <H3>답장을 보낼게요.</H3>
           </Header>
@@ -40,10 +66,8 @@ export default function ResponseConfirm() {
             </span>
           </VideoBox>
           <ButtonYellow
-            onClick={() => {
-              setRealSend(true);
-            }}
-          >
+            onClick={onClickHandler}
+            >
             마음 보내기
           </ButtonYellow>
         </>
@@ -52,7 +76,7 @@ export default function ResponseConfirm() {
         <>
           <Header2>
             <H3>
-              {tmpData.name}({tmpData.relationship}) 님에게
+              {transferInfo.receiverName}({transferInfo.nickname}) 님에게
             </H3>
             <H3>답장을 보냈어요.</H3>
           </Header2>

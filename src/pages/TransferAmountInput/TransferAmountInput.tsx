@@ -42,6 +42,10 @@ export default function TransferAmountInput() {
   const targetFamily = familyData.filter((el) => {
     return el === location.state;
   })[0];
+  
+  if (familyQuery.isFetching) {
+    return <div>isFetching..</div>
+  }
 
   return (
     <TransferAmountInputContainer>
@@ -85,7 +89,14 @@ export default function TransferAmountInput() {
         출금 가능 금액: {myMoney.toLocaleString()}원
       </Comment>
       {amount > 0 && amount <= myMoney ? (
-        <ButtonYellow>확인</ButtonYellow>
+        <ButtonYellow
+        onClick={()=>{
+          navigate('/transferrecord', {state: {
+            senderId: userId,
+            receiverId:targetFamily.userId,
+            amount:amount
+          }})
+        }}>확인</ButtonYellow>
       ) : (
         <ButtonGray>확인</ButtonGray>
       )}
