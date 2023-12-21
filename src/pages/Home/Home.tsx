@@ -22,7 +22,7 @@ export default function Home() {
 
   const queryClient = new QueryClient();
 
-  const [familydata, setFamilyData] = useState<FamilyMember[]>();
+  const [familydata, setFamilyData] = useState<FamilyMember[]>([]);
   const [transferList, setTransferList] = useState<TransferInfo[]>();
   const familyInfoQuery = useGetFamilyInfo({});
   const transferListQuery = useGetTransferAll({});
@@ -42,14 +42,21 @@ export default function Home() {
   useEffect(() => {
     if (familyInfoQuery.isSuccess) {
       setFamilyData(familyInfoQuery.data);
+      console.log(familydata);
     }
   }, [familyInfoQuery.isSuccess]);
 
   useEffect(() => {
     if (transferListQuery.isSuccess) {
       setTransferList(transferListQuery.data);
+      console.log(transferList);
     }
   }, [transferListQuery.isSuccess]);
+
+  useEffect(() => {
+    console.log(familydata);
+    console.log(transferList);
+  }, [familydata, transferList]);
 
   const user = queryClient.getQueryData(["getUser", userId]);
 
@@ -75,8 +82,7 @@ export default function Home() {
       <TransferContainer>
         <H3>영상으로 마음전하기</H3>
         <div>
-          {familyInfoQuery.isSuccess &&
-            familydata &&
+          {familyInfoQuery.isSuccess ? (
             familydata.map((el, i) => {
               return (
                 <TransferBtn
@@ -92,7 +98,10 @@ export default function Home() {
                   }}
                 ></TransferBtn>
               );
-            })}
+            })
+          ) : (
+            <></>
+          )}
         </div>
       </TransferContainer>
       <RecentContainer>
