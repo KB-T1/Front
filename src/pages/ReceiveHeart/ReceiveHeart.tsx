@@ -10,7 +10,7 @@ import tmpVideo from "../../assets/tmpVideo.svg";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FamilyMember } from "../../types/familyMember";
 import { TransferInfo } from "../../types/transferInfo";
-
+import Confetti from "react-confetti";
 export default function ReceiveHeart() {
   const location = useLocation();
   const [onPlay, setOnPlay] = useState<number>(0);
@@ -81,6 +81,7 @@ export default function ReceiveHeart() {
       )}
       {onPlay === 2 && (
         <>
+          <Confetti width={420} height={720} />
           <Navbar type="esc"> </Navbar>
           <Header>
             <H3>

@@ -18,6 +18,7 @@ import { TextAreaCodeCreated } from "../../commons/TextAreaCodeCreated";
 import { RandomComponent } from "../../utils/GenRandomId";
 import family from "../../assets/family.svg";
 import { useSignUp } from "../../ReactQuery";
+import Confetti from "react-confetti";
 
 export interface CheckStateType {
   data: { id: number; isChecked: boolean }[];
@@ -312,6 +313,7 @@ export default function SignUp() {
       )}
       {signupStage === 6 && (
         <>
+          <Confetti width={420} height={720} />
           <ModalContent>
             <ModalHeader>
               <H2>올리사랑에 오신 것을 환영해요!</H2>
