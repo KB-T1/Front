@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ButtonGray, ButtonYellow } from "../../commons/Button";
 import { Navbar } from "../../commons/Navbar";
@@ -12,6 +12,8 @@ import { FamilyMember } from "../../types/familyMember";
 export default function TransferAmountInput() {
   const [amount, setAmount] = useState<number>(0);
 
+  const [familyData, setFamilyData] = useState<FamilyMember[]>([]);
+  const [fetched, setFetched] = useState<boolean>(false);
   const myMoney = 500000;
 
   const navigate = useNavigate();
@@ -36,22 +38,25 @@ export default function TransferAmountInput() {
   const user = queryClient.getQueryData(["getUser", userId]);
 
   // 가족 정보 받아와서 detail 가족 정보 찾기
-  const familyQuery = useGetFamilyInfo({ userId });
-  const familyData = familyQuery.data as FamilyMember[];
 
-  const targetFamily = familyData.filter((el) => {
-    return el === location.state;
-  })[0];
+  const familyQuery = useGetFamilyInfo({});
+  useEffect(() => {
+    if (familyQuery.isSuccess && familyData.length === 0) {
+      setFamilyData(familyQuery.data);
+      console.log(familyQuery.data)
+    }
+  }, [familyQuery.isSuccess]);
+
+  useEffect(()=>{console.log(familyQuery.data)},[familyQuery])
+
+
   
-  if (familyQuery.isFetching) {
-    return <div>isFetching..</div>
-  }
 
   return (
     <TransferAmountInputContainer>
       <Navbar type="esc"> </Navbar>
       <TransferContent>
-        <H3>{targetFamily.userName} 님께</H3>
+        <H3>{familyData.filter((el)=>{return el.userId === location.state}) && familyData[0].userName ? familyData[0].userName : ""} 님께</H3>
         <div
           style={{
             display: "flex",
@@ -88,12 +93,12 @@ export default function TransferAmountInput() {
       <Comment style={{ fontSize: "16px", width: "360px", textAlign: "right" }}>
         출금 가능 금액: {myMoney.toLocaleString()}원
       </Comment>
-      {amount > 0 && amount <= myMoney ? (
+      {familyData.filter((el)=>{return el.userId === location.state})[0] && amount > 0 && amount <= myMoney ? (
         <ButtonYellow
         onClick={()=>{
           navigate('/transferrecord', {state: {
             senderId: userId,
-            receiverId:targetFamily.userId,
+            receiverId:familyData.filter((el)=>{return el.userId === location.state})[0].userId,
             amount:amount
           }})
         }}>확인</ButtonYellow>
@@ -101,7 +106,7 @@ export default function TransferAmountInput() {
         <ButtonGray>확인</ButtonGray>
       )}
     </TransferAmountInputContainer>
-  );
+  )     
 }
 
 const TransferAmountInputContainer = styled.div`

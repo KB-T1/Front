@@ -74,7 +74,7 @@ export default function FamilyMemberDetail({
   return (
     <FamilyMemberDetailContainer isOpen={isOpen}>
       <Navbar type="back">
-        {member?.userName}({member?.nickName}님)과의 기록
+        {member?.userName}({member?.nickname}님)과의 기록
       </Navbar>
       <Profile onProfileClick={onProfileClick}></Profile>
       <Bar>
@@ -92,11 +92,11 @@ export default function FamilyMemberDetail({
           return (
             <RecentBtn
               key={i}
-              profile={el.profile}
+              profile={el.senderId === userId ? el.receiverProfile : el.senderProfile}
               name={el.senderId === userId ? el.receiverName : el.senderName}
-              relationship={el.nickname}
+              relationship={el.senderId === userId ? el.receiverNickName : el.senderNickName}
               amount={el.amount}
-              time={el.historyCreatedAt}
+              time={el.createdAt}
               heart={false}
               onClickTransfer={() => {
                 navigate("/receiveheart", { state: el });

@@ -1,6 +1,6 @@
 export interface FamilyMember {
     userName: string;
-    nickName: string;
+    nickname: string;
     userId: number;
     profile: string;
 };
