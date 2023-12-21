@@ -132,17 +132,18 @@ export default function FamilyMemberDetail({
         <H3>주고받은 마음</H3>
         {transferData &&
           transferData.map((el, i) => {
+            console.log(el);
             return (
               <RecentBtn
                 key={i}
                 profile={el.profile}
                 name={
-                  el.senderId === targetId ? el.receiverName : el.senderName
+                  el.senderId === targetId ? el.senderName : el.receiverName
                 }
                 relationship={el.nickname}
                 amount={el.amount}
                 time={el.historyCreatedAt}
-                heart={false}
+                heart={el.amount === -1 ? true : false}
                 onClickTransfer={() => {
                   navigate("/receiveheart", { state: { transferInfo: el } });
                 }}
@@ -152,6 +153,7 @@ export default function FamilyMemberDetail({
       </RecordHeartBox>
       {isOpen && <ModalBox></ModalBox>}
       <Modal
+        setTransferData={setTransferData}
         targetedId={targetId}
         targeterId={myId}
         nickName={nickName}

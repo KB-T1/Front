@@ -7,6 +7,7 @@ import { ButtonYellow } from "../../commons/Button";
 import { genName } from "../../utils/genName";
 import { useRelation } from "../../ReactQuery";
 import { FamilyMember } from "../../types/familyMember";
+import { TransferInfo } from "../../types/transferInfo";
 
 interface ModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface ModalProps {
   member?: FamilyMember;
   targeterId: number;
   targetedId: number;
+  setTransferData: (transfer: TransferInfo[]) => void;
 }
 
 export function Modal({
@@ -25,6 +27,7 @@ export function Modal({
   setNickName,
   member,
   isOpen,
+  setTransferData,
   onClose,
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
