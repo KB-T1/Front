@@ -95,7 +95,7 @@ export default function ReceiveHeart() {
             onClick={() => {
               navigate("/responserecord", {
                 state: {
-                  senderId: member.userId,
+                  senderId: transfer.senderId,
                   receiverId: targetId,
                   transferId: transferId,
                 },
