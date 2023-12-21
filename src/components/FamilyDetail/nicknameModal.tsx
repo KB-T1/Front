@@ -55,7 +55,7 @@ export function Modal({
 
   useEffect(() => {
     if (relation.isSuccess) {
-      setNickName(nickName);
+      onClose();
     }
   }, [relation.isSuccess]);
 
@@ -80,7 +80,6 @@ export function Modal({
               setNickName(genName());
             } else {
               relation.mutate();
-              onClose();
             }
           }}
         >

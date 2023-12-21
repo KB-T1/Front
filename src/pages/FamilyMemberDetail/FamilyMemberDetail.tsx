@@ -108,9 +108,11 @@ export default function FamilyMemberDetail({
 
   return (
     <FamilyMemberDetailContainer isOpen={isOpen}>
-      <Navbar type="back">
-        {member?.userName}({member?.nickname}님)과의 기록
-      </Navbar>
+      {member && (
+        <Navbar type="back">
+          {member?.userName}({member?.nickname}님)과의 기록
+        </Navbar>
+      )}
       <Profile
         profile={member ? member.profile : ""}
         name={member?.userName}
@@ -128,27 +130,29 @@ export default function FamilyMemberDetail({
 
       <RecordHeartBox>
         <H3>주고받은 마음</H3>
-        {transferData.map((el, i) => {
-          return (
-            <RecentBtn
-              key={i}
-              profile={el.profile}
-              name={el.senderId === targetId ? el.receiverName : el.senderName}
-              relationship={el.nickname}
-              amount={el.amount}
-              time={el.historyCreatedAt}
-              heart={false}
-              onClickTransfer={() => {
-                navigate("/receiveheart", { state: el });
-              }}
-            ></RecentBtn>
-          );
-        })}
+        {transferData &&
+          transferData.map((el, i) => {
+            return (
+              <RecentBtn
+                key={i}
+                profile={el.profile}
+                name={
+                  el.senderId === targetId ? el.receiverName : el.senderName
+                }
+                relationship={el.nickname}
+                amount={el.amount}
+                time={el.historyCreatedAt}
+                heart={false}
+                onClickTransfer={() => {
+                  navigate("/receiveheart", { state: { transferInfo: el } });
+                }}
+              ></RecentBtn>
+            );
+          })}
       </RecordHeartBox>
       {isOpen && <ModalBox></ModalBox>}
       <Modal
         targetedId={targetId}
-        member={member}
         targeterId={myId}
         nickName={nickName}
         setNickName={setNickName}

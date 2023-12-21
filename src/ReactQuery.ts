@@ -267,7 +267,7 @@ async function getTransferPersonal(params: TransferPersonalParams) {
   if (!localStorageUserId) {
     throw new Error("user id not exist");
   }
-  const response = await axios.get(historyUrl + `with`, {
+  const response = await axios.get(historyUrl + `/with`, {
     params: {
       targetUserId: params.queryKey[1].info.targetUserId,
       userId: localStorageUserId,
@@ -277,7 +277,7 @@ async function getTransferPersonal(params: TransferPersonalParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const TransferList = response.data;
+  const TransferList = response.data.data;
 
   return TransferList;
 }
