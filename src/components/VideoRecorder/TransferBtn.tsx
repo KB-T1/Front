@@ -7,6 +7,7 @@ import profilePicAlgu from "../../assets/profilePicAlgu.svg";
 import { P2, Comment, P3 } from "../../commons/Text";
 import smallFront from "../../assets/smallFront.svg";
 import yellowHeart from "../../assets/yellowHeart.svg";
+import { profileMatcher } from "../../utils/profileMatcher";
 
 interface TransferBtnProps {
   profile: string;
@@ -16,29 +17,17 @@ interface TransferBtnProps {
   onClickDetailBtn: () => void;
 }
 
-export function TransferBtn({ profile, name, relationship , onClickTransferBtn, onClickDetailBtn} : TransferBtnProps) {
-  const profileConverter = (profile: string) => {
-    if (profile === "lamu") {
-      return profilePicLamu;
-    }
-    else if (profile === "bibi") {
-      return profilePicBibi;
-    }
-    else if (profile === "coli") {
-      return profilePicColi;
-    }
-    else if (profile === "kiki") {
-      return profilePicKiki;
-    }
-    else {
-      return profilePicAlgu;
-    }
-  };
-
+export function TransferBtn({
+  profile,
+  name,
+  relationship,
+  onClickTransferBtn,
+  onClickDetailBtn,
+}: TransferBtnProps) {
   return (
     <TransferBtnContainer>
       <TopContainer onClick={onClickDetailBtn}>
-        <img src={profileConverter(profile)} />
+        <img src={profileMatcher(profile)} width={32} />
         <P2>{name}</P2>
         <Comment>{relationship}</Comment>
         <img src={smallFront} />

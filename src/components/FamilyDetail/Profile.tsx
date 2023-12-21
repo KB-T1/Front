@@ -2,9 +2,10 @@ import styled from "styled-components";
 import lamu from "../../assets/profilePicLamu.svg";
 import settingBtn from "../../assets/settingBtn.svg";
 import { H3, P3 } from "../../commons/Text";
+import { profileMatcher } from "../../utils/profileMatcher";
 
 interface ProfileProps {
-  profile?: string;
+  profile: string;
   name?: string;
   relationship?: string;
   onProfileClick: () => void;
@@ -16,17 +17,11 @@ export function Profile({
   relationship,
   onProfileClick,
 }: ProfileProps) {
-  const tmpInfo = {
-    profile: "lamu",
-    name: "이수민",
-    relationship: "따님",
-  };
-
   return (
     <ProfileContainer>
-      <img src={lamu} alt="profile" width={48} />
-      <H3>{tmpInfo.name}</H3>
-      <P3>{tmpInfo.relationship}</P3>
+      <img src={profileMatcher(profile)} alt="profile" width={48} />
+      <H3>{name}</H3>
+      <P3>{relationship}</P3>
       <img onClick={onProfileClick} src={settingBtn} alt="setting" />
     </ProfileContainer>
   );

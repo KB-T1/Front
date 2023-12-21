@@ -19,6 +19,7 @@ export const ButtonGray = styled.button`
 
 export const ButtonYellow = styled.button`
   width: 90%;
+  max-width: 420px;
   height: 52px;
   background-color: #ffda49;
 

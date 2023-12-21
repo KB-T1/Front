@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Navbar } from "../../commons/Navbar";
 import { H3, H4 } from "../../commons/Text";
@@ -12,6 +12,7 @@ import { QueryClient } from "react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGetFamilyInfo, useGetTransferPersonal } from "../../ReactQuery";
 import { TransferInfo } from "../../types/transferInfo";
+import { FamilyMember } from "../../types/familyMember";
 
 interface FamilyMemberDetailProps {
   name?: string;
@@ -23,49 +24,83 @@ export default function FamilyMemberDetail({
   relationship,
 }: FamilyMemberDetailProps) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [nickName, setNickName] = useState<string>("");
+  const [myId, setMyId] = useState<number>(0);
+  const [targetId] = useState<number>(Number(location.state));
+  const [familyId, setFamilyId] = useState<string | null>("");
+  const [transferData, setTransferData] = useState<TransferInfo[]>([]);
+  const [member, setMember] = useState<FamilyMember>();
 
   const queryClient = new QueryClient();
 
-  // 유저 가족 정보 & 송금 내역 가져오기
-
-  const localStorageUserId = localStorage.getItem("userId");
-
-  const [userId, setUserId] = useState<number>(0);
-
-  if (localStorageUserId != null) {
-    setUserId(JSON.parse(localStorageUserId));
-  } else {
-    navigate("/signup");
-  }
-
-  const localStorageFamilyId = localStorage.getItem("familyId");
-
-  const [familyId, setFamilyId] = useState<string>("");
-
-  const location = useLocation();
-
-  const memberId = parseInt(location.state);
-
-  const user = queryClient.getQueryData(["getUser", userId]);
-
-  const familyInfoQuery = useGetFamilyInfo({ userId });
-
-  const member = familyInfoQuery.data?.filter((el) => {
-    return el.userId === memberId;
-  })[0];
-
   const transferListQuery = useGetTransferPersonal({
-    targetUserId: memberId,
+    targetUserId: targetId,
   });
+  const familyInfoQuery = useGetFamilyInfo({ targetId });
 
-  const transferData = transferListQuery.data as TransferInfo[];
+  useEffect(() => {
+    const localStorageFamilyId = localStorage.getItem("familyId");
+    const localStorageUserId = localStorage.getItem("userId");
+
+    if (localStorageUserId !== null || localStorageFamilyId !== null) {
+      setMyId(Number(localStorageUserId));
+      setFamilyId(localStorageFamilyId);
+    } else {
+      navigate("/signup");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (transferListQuery.isSuccess) {
+      setTransferData(transferListQuery.data);
+    }
+  }, [transferListQuery.isSuccess]);
+
+  const user = queryClient.getQueryData(["getUser", targetId]);
+
+  useEffect(() => {
+    console.log("familyInfoSuccess");
+    const data = familyInfoQuery.data;
+
+    if (!data) {
+      return;
+    }
+    console.log(data);
+    setMember({
+      ...data.filter((el) => {
+        return targetId === el.userId;
+      })[0],
+    });
+  }, [familyInfoQuery.isSuccess]);
 
   const onClose = () => {
+    familyInfoQuery.refetch().then((res) => {
+      const data = res.data;
+
+      if (!data || !member) {
+        return;
+      }
+
+      const changeMember = data.filter((el) => {
+        return targetId === el.userId;
+      })[0];
+
+      console.log("setMember", changeMember, {
+        ...member,
+        nickname: changeMember.nickname,
+      });
+      setMember({ ...member, nickname: changeMember.nickname });
+    });
+
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    console.log("member changed", member);
+  }, [member]);
 
   const onProfileClick = () => {
     setIsOpen(true);
@@ -73,10 +108,17 @@ export default function FamilyMemberDetail({
 
   return (
     <FamilyMemberDetailContainer isOpen={isOpen}>
-      <Navbar type="back">
-        {member?.userName}({member?.nickName}님)과의 기록
-      </Navbar>
-      <Profile onProfileClick={onProfileClick}></Profile>
+      {member && (
+        <Navbar type="back">
+          {member?.userName}({member?.nickname}님)과의 기록
+        </Navbar>
+      )}
+      <Profile
+        profile={member ? member.profile : ""}
+        name={member?.userName}
+        relationship={member?.nickname}
+        onProfileClick={onProfileClick}
+      ></Profile>
       <Bar>
         <img src={sendCall} alt="call" />
         <img src={sendMsg} alt="message" />
@@ -88,25 +130,30 @@ export default function FamilyMemberDetail({
 
       <RecordHeartBox>
         <H3>주고받은 마음</H3>
-        {transferData.map((el, i) => {
-          return (
-            <RecentBtn
-              key={i}
-              profile={el.profile}
-              name={el.senderId === userId ? el.receiverName : el.senderName}
-              relationship={el.nickname}
-              amount={el.amount}
-              time={el.historyCreatedAt}
-              heart={false}
-              onClickTransfer={() => {
-                navigate("/receiveheart", { state: el });
-              }}
-            ></RecentBtn>
-          );
-        })}
+        {transferData &&
+          transferData.map((el, i) => {
+            return (
+              <RecentBtn
+                key={i}
+                profile={el.profile}
+                name={
+                  el.senderId === targetId ? el.receiverName : el.senderName
+                }
+                relationship={el.nickname}
+                amount={el.amount}
+                time={el.historyCreatedAt}
+                heart={false}
+                onClickTransfer={() => {
+                  navigate("/receiveheart", { state: { transferInfo: el } });
+                }}
+              ></RecentBtn>
+            );
+          })}
       </RecordHeartBox>
       {isOpen && <ModalBox></ModalBox>}
       <Modal
+        targetedId={targetId}
+        targeterId={myId}
         nickName={nickName}
         setNickName={setNickName}
         isOpen={isOpen}
