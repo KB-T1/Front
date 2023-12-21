@@ -124,7 +124,7 @@ async function getFamily(params: FamilyInfoParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const familyInfoList = response.data;
+  const familyInfoList = response.data.data.familyMember;
 
   return familyInfoList;
 }
@@ -160,7 +160,7 @@ async function getTransferAll(params: TransferAllParams) {
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
-  const TransferList = response.data;
+  const TransferList = response.data.data;
 
   return TransferList;
 }
