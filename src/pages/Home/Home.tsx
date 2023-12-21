@@ -83,7 +83,11 @@ export default function Home() {
         <NotifyBar
           onClick={() => {
             navigate("/receiveheart", {
-              state: recentTransferList,
+              state: {
+                transfer: recentTransferList,
+                transferId: recentTransferList.historyId,
+                targetId: recentTransferList.receiverId,
+              },
             });
           }}
         >

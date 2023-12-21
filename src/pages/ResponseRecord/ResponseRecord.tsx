@@ -33,7 +33,15 @@ export default function ResponseRecord() {
           </ButtonYellow>
         </TransferRecordContainer>
       )}
-      {onRecord && <VideoRecorder isReply={false} transferId={transferId} senderId={senderId} receiverId={receiverId} amount={-1}/>}
+      {onRecord && (
+        <VideoRecorder
+          isReply={true}
+          transferId={transferId}
+          senderId={senderId}
+          receiverId={receiverId}
+          amount={-1}
+        />
+      )}
     </>
   );
 }

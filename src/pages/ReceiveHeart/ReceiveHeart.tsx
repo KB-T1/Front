@@ -15,7 +15,9 @@ import Confetti from "react-confetti";
 export default function ReceiveHeart() {
   const location = useLocation();
   const [onPlay, setOnPlay] = useState<number>(0);
-  const [transfer, setTransfer] = useState<TransferInfo>(location.state);
+  const [transfer, setTransfer] = useState<TransferInfo>(
+    location.state.transfer
+  );
 
   const targetId = location.state.targetId;
   const transferId = location.state.transferId;
@@ -24,6 +26,7 @@ export default function ReceiveHeart() {
 
   useEffect(() => {
     console.log("transfer", transfer);
+    console.log();
   }, []);
 
   return (
