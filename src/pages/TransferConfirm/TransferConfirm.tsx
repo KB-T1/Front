@@ -27,6 +27,24 @@ export default function TransferConfirm() {
     amount: 500000,
   };
 
+  const onClickHandler = () => {
+    setRealSend(true);
+  }
+  
+  const TransferEvent = async() => {
+  const response = await fetch(videoUrl);
+  const blobData = await response.blob();
+    // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
+    const blobObject = new Blob([blobData], { type: "video/webm" });
+    const uploadVideo = useUploadVideo({amount:amount, senderId:senderId, receiverId:receiverId, video:blobObject, transferId:-1});
+    if (uploadVideo.isSuccess){
+      console.log('success')
+    }
+}
+  useEffect(()=>{
+    TransferEvent();
+  }, [onClickHandler])
+
   return (
     <TransferConfirmContainer>
       {!realSend && (
@@ -47,21 +65,7 @@ export default function TransferConfirm() {
             </span>
           </VideoBox>
           <ButtonYellow
-            onClick={() => {
-              fetch(videoUrl)
-              .then(response => response.blob())
-              .then(blobData => {
-                // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
-                const blobObject = new Blob([blobData], { type: "video/webm" });
-                const uploadVideo = useUploadVideo({amount:amount, senderId:senderId, receiverId:receiverId, video:blobObject, transferId:transferId});
-                if (uploadVideo.isSuccess){
-                  setRealSend(true);
-                }
-              })
-              .catch(error => {
-                console.error("Error fetching Blob data:", error);
-              });
-            }}
+            onClick={onClickHandler}
           >
             마음 보내기
           </ButtonYellow>
