@@ -75,7 +75,7 @@ export default function ReceiveHeart() {
           </Header2>
           <VideoBox>
             {/* <img src={tmpVideo} alt="video" width={250} /> */}
-            <video src="/assets/video1.mp4" width={250} autoPlay />
+            <video src={transfer.videoUrl} width={250} autoPlay />
           </VideoBox>
           <ButtonYellow
             onClick={() => {
