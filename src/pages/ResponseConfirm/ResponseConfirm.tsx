@@ -40,6 +40,8 @@ export default function ResponseConfirm() {
 
   const onClickHandler = () => {
     setRealSend(true);
+
+    TransferEvent();
   };
 
   const TransferEvent = async () => {
@@ -58,10 +60,6 @@ export default function ResponseConfirm() {
       console.log("success");
     }
   };
-  useEffect(() => {
-    TransferEvent();
-  }, [onClickHandler]);
-
   return (
     <TransferConfirmContainer>
       {!realSend && (

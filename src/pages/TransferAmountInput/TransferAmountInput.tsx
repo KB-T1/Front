@@ -11,52 +11,58 @@ import { FamilyMember } from "../../types/familyMember";
 
 export default function TransferAmountInput() {
   const [amount, setAmount] = useState<number>(0);
-
+  const [userId, setUserId] = useState<number>(
+    Number(localStorage.getItem("userId"))
+  );
+  const [targetData, setTargetData] = useState<FamilyMember>();
   const [familyData, setFamilyData] = useState<FamilyMember[]>([]);
   const [fetched, setFetched] = useState<boolean>(false);
   const myMoney = 500000;
 
-  const navigate = useNavigate();
-
   // props로 받은 state 받기
   const location = useLocation();
+  const navigate = useNavigate();
 
   // 로컬 스토리지에서 유저 정보 받아오기
-
-  const localStorageUserId = localStorage.getItem("userId");
-
-  const [userId, setUserId] = useState<number>(0);
-
-  if (localStorageUserId != null) {
-    setUserId(JSON.parse(localStorageUserId));
-  } else {
-    navigate("/signup");
-  }
+  useEffect(() => {
+    if (userId === null) {
+      navigate("/signup");
+    }
+  }, []);
 
   const queryClient = new QueryClient();
 
   const user = queryClient.getQueryData(["getUser", userId]);
+  const familyQuery = useGetFamilyInfo({});
 
   // 가족 정보 받아와서 detail 가족 정보 찾기
-
-  const familyQuery = useGetFamilyInfo({});
   useEffect(() => {
     if (familyQuery.isSuccess && familyData.length === 0) {
       setFamilyData(familyQuery.data);
-      console.log(familyQuery.data)
+      console.log("familydata", familyQuery.data);
+
+      const tmp = familyQuery.data.filter((el) => {
+        return el.userId === location.state;
+      });
+
+      if (tmp.length === 1) {
+        setTargetData(tmp[0]);
+      }
     }
   }, [familyQuery.isSuccess]);
 
-  useEffect(()=>{console.log(familyQuery.data)},[familyQuery])
-
-
-  
+  useEffect(() => {
+    console.log(familyQuery.data);
+  }, [familyQuery]);
 
   return (
     <TransferAmountInputContainer>
       <Navbar type="esc"> </Navbar>
       <TransferContent>
-        <H3>{familyData.filter((el)=>{return el.userId === location.state}) && familyData[0].userName ? familyData[0].userName : ""} 님께</H3>
+        <H3>
+          {targetData && targetData.userName}
+          님께
+        </H3>
         <div
           style={{
             display: "flex",
@@ -93,20 +99,29 @@ export default function TransferAmountInput() {
       <Comment style={{ fontSize: "16px", width: "360px", textAlign: "right" }}>
         출금 가능 금액: {myMoney.toLocaleString()}원
       </Comment>
-      {familyData.filter((el)=>{return el.userId === location.state})[0] && amount > 0 && amount <= myMoney ? (
+      {familyData.filter((el) => {
+        return el.userId === location.state;
+      })[0] &&
+      amount > 0 &&
+      amount <= myMoney ? (
         <ButtonYellow
-        onClick={()=>{
-          navigate('/transferrecord', {state: {
-            senderId: userId,
-            receiverId:familyData.filter((el)=>{return el.userId === location.state})[0].userId,
-            amount:amount
-          }})
-        }}>확인</ButtonYellow>
+          onClick={() => {
+            navigate("/transferrecord", {
+              state: {
+                senderId: userId,
+                receiverId: targetData && targetData.userId,
+                amount: amount,
+              },
+            });
+          }}
+        >
+          확인
+        </ButtonYellow>
       ) : (
         <ButtonGray>확인</ButtonGray>
       )}
     </TransferAmountInputContainer>
-  )     
+  );
 }
 
 const TransferAmountInputContainer = styled.div`
