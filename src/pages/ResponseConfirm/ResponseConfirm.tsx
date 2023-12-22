@@ -14,6 +14,7 @@ export default function ResponseConfirm() {
   const [realSend, setRealSend] = useState<boolean>(false);
   const [transferInfo, setTransferInfo] = useState<TransferInfo>();
 
+  const [videoData, setVideoData] = useState<Blob>(new Blob());
   const location = useLocation();
 
   const queryClient = new QueryClient();
@@ -44,18 +45,20 @@ export default function ResponseConfirm() {
     TransferEvent();
   };
 
+  const uploadVideo = useUploadVideo({
+    amount: -1,
+    senderId: senderId,
+    receiverId: receiverId,
+    video: videoData,
+    transferId: transferId,
+  });
+
   const TransferEvent = async () => {
     const response = await fetch(videoUrl);
     const blobData = await response.blob();
     // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
-    const blobObject = new Blob([blobData], { type: "video/webm" });
-    const uploadVideo = useUploadVideo({
-      amount: -1,
-      senderId: senderId,
-      receiverId: receiverId,
-      video: blobObject,
-      transferId: transferId,
-    });
+    setVideoData(new Blob([blobData], { type: "video/webm" }));
+
     if (uploadVideo.isSuccess) {
       console.log("success");
     }

@@ -29,6 +29,17 @@ export default function Home() {
   const familyInfoQuery = useGetFamilyInfo({});
   const transferListQuery = useGetTransferAll({});
 
+  const getTransferById = (id: number) => {
+    if (transferList) {
+      for (let i = 0; i < transferList.length; i++) {
+        if (transferList[i].transferId === id) {
+          return transferList[i];
+        }
+      }
+    }
+    return null;
+  };
+
   useEffect(() => {
     const localStorageUserId = localStorage.getItem("userId");
     const localStorageFamilyId = localStorage.getItem("familyId");
@@ -63,7 +74,7 @@ export default function Home() {
 
   useEffect(() => {
     console.log(familydata);
-    console.log(transferList);
+    console.log("transferList", transferList);
   }, [familydata, transferList]);
 
   const user = queryClient.getQueryData(["getUser", userId]);
@@ -145,8 +156,17 @@ export default function Home() {
         {transferListQuery.isSuccess &&
           transferList &&
           transferList.map((el, i) => {
+            const transferId = el.transferId;
+            const thisTransfer = getTransferById(transferId);
+
+            console.log("thisTransfer", thisTransfer);
+            if (!thisTransfer) {
+              return <></>;
+            }
             return (
               <RecentBtn
+                userId={userId}
+                senderId={el.senderId}
                 key={i}
                 profile={
                   el.senderId === userId ? el.receiverProfile : el.senderProfile
@@ -161,19 +181,20 @@ export default function Home() {
                 time={el.createdAt}
                 heart={el.amount === -1 ? true : false}
                 onClickTransfer={() => {
+                  if (el.senderId === userId) {
+                    return;
+                  }
                   navigate("/receiveheart", {
                     state: {
                       historyId: el.historyId,
                       amount: el.amount,
                       videoUrl: el.videoUrl,
-                      targetName:
-                        el.senderId === userId
-                          ? el.receiverName
-                          : el.senderName,
-                      nickname:
-                        el.senderId === userId
-                          ? el.receiverNickName
-                          : el.senderNickName,
+                      // targetName:
+                      //   el.senderId === userId
+                      //     ? el.receiverName
+                      //     : el.senderName,
+                      senderName: el.senderName,
+                      senderNickName: el.senderNickName,
                     },
                   });
                 }}

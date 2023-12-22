@@ -10,6 +10,8 @@ interface RecentBtnProps {
   amount?: number;
   heart?: boolean;
   time: string;
+  userId?: number;
+  senderId?: number;
   onClickTransfer: () => void;
 }
 
@@ -18,6 +20,8 @@ export function RecentBtn({
   name,
   relationship,
   heart,
+  userId,
+  senderId,
   amount,
   time,
   onClickTransfer,
@@ -28,7 +32,8 @@ export function RecentBtn({
         <img src={profileBibi} />
         <div>
           <P2>
-            {name}({relationship}){amount && amount > 0 ? "에게" : "로부터"}
+            {name}({relationship})
+            {userId && senderId && userId === senderId ? "에게" : "로부터"}
           </P2>
           <Comment2>{time}</Comment2>
         </div>
