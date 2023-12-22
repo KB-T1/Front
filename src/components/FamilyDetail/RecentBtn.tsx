@@ -65,8 +65,6 @@ const RecentBtnContainer = styled.div`
   margin-bottom: 12px;
   border-radius: 20px;
 
-  overflow: scroll;
-
   .send {
     color: #f06687;
   }

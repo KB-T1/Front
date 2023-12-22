@@ -233,6 +233,8 @@ const RecentContainer = styled.div`
   margin-top: 36px;
   /* overflow-y: scroll; */
 
+  overflow-y: scroll;
+
   & > h3 {
     padding-bottom: 18px;
   }
