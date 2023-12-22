@@ -27,7 +27,15 @@ export default function VideoRecorder({
   name,
   nickname,
 }: VideoRecorderProps) {
-  const navigate = useNavigate();
+  const fileInputRef = React.createRef<HTMLInputElement>();
+
+  useEffect(() => {
+    // 페이지가 로드되면 input 클릭
+    fileInputRef.current?.click();
+  }, []); // 빈 배열을 전달하여 한 번만 실행되도록 함
+  
+    const navigate = useNavigate();
+
   // const videoRef = useRef<HTMLVideoElement>(null);
   // const mediaRecorder = useRef<MediaRecorder | null>(null);
   // const videoChunks = useRef<Blob[]>([]);
@@ -179,7 +187,7 @@ export default function VideoRecorder({
     <Navbar type="back"> </Navbar>
     <VideoWrapper>
       {url ? <video src={url} autoPlay />:
-      <input type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture/>}
+      <input ref={fileInputRef} type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture/>}
       <VideoContainer>
         <CancelButton>취소</CancelButton>
         <StoreButton onClick={downloadVideo}>완료</StoreButton>
