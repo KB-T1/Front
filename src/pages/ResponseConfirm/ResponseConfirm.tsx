@@ -66,6 +66,7 @@ export default function ResponseConfirm() {
       console.log("success");
     }
   };
+  
   return (
     <TransferConfirmContainer>
       {!realSend && (

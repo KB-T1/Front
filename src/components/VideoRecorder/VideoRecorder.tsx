@@ -187,7 +187,7 @@ export default function VideoRecorder({
     <Navbar type="back"> </Navbar>
     <VideoWrapper>
       {url ? <video src={url} autoPlay />:
-      <input ref={fileInputRef} type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture/>}
+      <input ref={fileInputRef} type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture="user"/>}
       <VideoContainer>
         <CancelButton>취소</CancelButton>
         <StoreButton onClick={downloadVideo}>완료</StoreButton>
