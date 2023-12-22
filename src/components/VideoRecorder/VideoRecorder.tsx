@@ -114,7 +114,7 @@ export default function VideoRecorder({
   const handler = (event:React.ChangeEvent<HTMLInputElement>) => {
       const selectedFile = event.target.files && event.target.files[0];
       if (selectedFile){
-        const videoBlob = new Blob([selectedFile], { type: "video/webm" });
+        const videoBlob = new Blob([selectedFile], { type: "video/mp4" });
 
         console.log("Video Blob:", videoBlob);
         console.log("Video Blob:", videoBlob.size);
