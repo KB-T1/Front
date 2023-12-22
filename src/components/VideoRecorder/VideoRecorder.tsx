@@ -30,6 +30,7 @@ export default function VideoRecorder({
 }: VideoRecorderProps) {
   const fileInputRef = React.createRef<HTMLInputElement>();
 
+  const [videoFile, setVideoFile] = useState<File | null>();
   useEffect(() => {
     // 페이지가 로드되면 input 클릭
     fileInputRef.current?.click();
@@ -113,6 +114,8 @@ export default function VideoRecorder({
 
   const handler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files && event.target.files[0];
+    setVideoFile(event.target.files && event.target.files[0]);
+    console.log("selectedFile", selectedFile);
     if (selectedFile) {
       const videoBlob = new Blob([selectedFile], { type: "video/mp4" });
 
@@ -126,6 +129,7 @@ export default function VideoRecorder({
     const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
     navigate(`${navigateTo}`, {
       state: {
+        videoFile: videoFile,
         videoUrl: url,
         senderId: senderId,
         receiverId: receiverId,

@@ -24,6 +24,7 @@ export default function ResponseConfirm() {
   const transferId = location.state.transferId;
   const name = location.state.name;
   const nickname = location.state.nickname;
+  const videoFile = location.state.videoFile;
 
   const { isSuccess, data } = useGetTransferPersonal({
     targetUserId: receiverId,
@@ -50,9 +51,9 @@ export default function ResponseConfirm() {
 
   const uploadVideo = useUploadVideo({
     amount: -1,
-    senderId: senderId,
-    receiverId: receiverId,
-    video: videoData,
+    senderId: receiverId,
+    receiverId: senderId,
+    video: videoFile,
     transferId: transferId,
   });
 
