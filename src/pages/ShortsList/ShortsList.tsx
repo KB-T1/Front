@@ -1,7 +1,108 @@
 import React from "react";
+import styled from "styled-components";
+import { H3 } from "../../commons/Text";
+import { Tabbar } from "../../commons/Tabbar";
+import TopTabbar from "../../assets/topTabbar.svg";
+import { VideoGrid } from "../../components/Shorts/VideoGrid";
+import { Navbar } from "../../commons/Navbar";
+import { useNavigate } from "react-router-dom";
 
 export default function ShortsList() {
 
-    return (<></>);
+    const navigate = useNavigate();
+    const videos = [
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 1,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+       
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 2,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 3,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 4,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 5,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 11,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+       
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 12,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 13,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 14,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+        {
+            videoUrl: "/assets/tmpVideo.mp4",
+            videoId: 15,
+            name: "이수민",
+            date: "2023-12-21",
+        },
+    ]
     
-}
+    return (
+        <ShortsWrapper>
+            <Navbar type="back"><H3>마음 보관함</H3></Navbar>
+            <TopTabbarContainer>
+                <img src={TopTabbar} alt="toptabbar" />
+            </TopTabbarContainer>
+            <VideoGrid videos={videos}/>
+        <Tabbar />
+        </ShortsWrapper>
+      );
+    }
+    const ShortsWrapper = styled.div`
+      width: 393px;
+      margin-bottom: 40px;
+      height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      & > div:last-child {
+        margin-top: 60px;  
+      }
+    `;
+    
+    const TopTabbarContainer = styled.div`
+        position:fixed;
+        height: 70px;
+        padding-top: 80px;
+        background-color: white;
+        z-index: 2;
+    `;

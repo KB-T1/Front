@@ -54,9 +54,11 @@ const NavbarContainer = styled.div`
   background: #fff;
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 48px;
+  position: fixed;
   width: 100%;
-  height: 28px;
+  max-width: 420px;
+  z-index: 100;
+  height: 60px;
 `;
 
 const NavbarChild = styled.div`
