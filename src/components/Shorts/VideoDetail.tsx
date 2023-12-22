@@ -5,11 +5,38 @@ import { Video } from "../../types/video";
 
 interface VideoProps {
   videos: Video[];
-  videoRef: LegacyRef<HTMLVideoElement>;
 }
 
-export const VideoDetail = ({ videoRef, videos }: VideoProps) => {
+export const VideoDetail = ({ videos }: VideoProps) => {
   const navigate = useNavigate();
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!videoRef.current) return;
+
+        if (entry.isIntersecting) {
+          videoRef.current.play();
+        } else {
+          videoRef.current.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
 
   return (
     <VideoDetailContainer>

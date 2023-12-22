@@ -16,31 +16,6 @@ export default function ShortsDetail() {
   const index: number = videolist.indexOf(video);
   const videos = videolist.slice(index).concat(videolist.slice(0, index - 1));
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      if (!videoRef.current) return;
-
-      if (entry.isIntersecting) {
-        videoRef.current.play();
-      } else {
-        videoRef.current.pause();
-      }
-    });
-
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, []);
-
   return (
     <ShortsWrapper>
       <Navbar
@@ -51,7 +26,7 @@ export default function ShortsDetail() {
       >
         {" "}
       </Navbar>
-      <VideoDetail videoRef={videoRef} videos={videos} />
+      <VideoDetail videos={videos} />
       <Tabbar />
     </ShortsWrapper>
   );
