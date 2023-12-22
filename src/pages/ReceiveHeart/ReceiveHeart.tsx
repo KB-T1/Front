@@ -15,11 +15,9 @@ import Confetti from "react-confetti";
 export default function ReceiveHeart() {
   const location = useLocation();
   const [onPlay, setOnPlay] = useState<number>(0);
-  const [transfer, setTransfer] = useState<TransferInfo>(
-    location.state.transfer
-  );
+  const [transfer, setTransfer] = useState<TransferInfo>(location.state);
 
-  const targetId = location.state.targetId;
+  const targetId = location.state.receiverId;
   const transferId = location.state.transferId;
 
   const navigate = useNavigate();

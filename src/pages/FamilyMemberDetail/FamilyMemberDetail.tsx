@@ -132,6 +132,7 @@ export default function FamilyMemberDetail({
         <H3>주고받은 마음</H3>
 
         {transferData.map((el, i) => {
+          console.log("receiveheart", el);
           return (
             <RecentBtn
               key={i}

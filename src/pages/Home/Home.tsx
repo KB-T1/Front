@@ -12,6 +12,7 @@ import { TransferInfo } from "../../types/transferInfo";
 import { FamilyMember } from "../../types/familyMember";
 import { QueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -70,7 +71,19 @@ export default function Home() {
   // 유저 가족 정보 & 송금 내역 가져오기
 
   if (familyInfoQuery.isFetching || transferListQuery.isFetching) {
-    return <div>isFetching...</div>;
+    return (
+      <div
+        style={{
+          height: "900px",
+          width: "20%",
+          marginTop: "40vh",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
+        <Oval color="#ff0000" height={100} width={100} />
+      </div>
+    );
   }
 
   if (familyInfoQuery.isError || transferListQuery.isError) {
