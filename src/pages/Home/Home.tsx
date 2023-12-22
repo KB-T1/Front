@@ -110,7 +110,7 @@ export default function Home() {
             navigate("/receiveheart", {
               state: {
                 transfer: recentTransferList,
-                transferId: recentTransferList.historyId,
+                transferId: recentTransferList.transferId,
                 targetId: recentTransferList.receiverId,
               },
             });
