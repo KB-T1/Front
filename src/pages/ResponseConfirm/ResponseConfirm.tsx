@@ -69,6 +69,13 @@ export default function ResponseConfirm() {
 
   useEffect(() => {
     if (fileSuccess) {
+      console.log("mydata", {
+        amount: -1,
+        senderId: senderId,
+        receiverId: receiverId,
+        video: videoData,
+        transferId: transferId,
+      });
       uploadVideo.mutate();
     }
   }, [fileSuccess]);

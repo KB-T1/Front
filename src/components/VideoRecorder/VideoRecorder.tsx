@@ -24,6 +24,7 @@ export default function VideoRecorder({
   receiverId,
   senderId,
   amount,
+  transferId,
   name,
   nickname,
 }: VideoRecorderProps) {
@@ -33,8 +34,8 @@ export default function VideoRecorder({
     // 페이지가 로드되면 input 클릭
     fileInputRef.current?.click();
   }, []); // 빈 배열을 전달하여 한 번만 실행되도록 함
-  
-    const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   // const videoRef = useRef<HTMLVideoElement>(null);
   // const mediaRecorder = useRef<MediaRecorder | null>(null);
@@ -68,7 +69,6 @@ export default function VideoRecorder({
   //       audio: false,
   //       video: true, // 모바일에서 전면 카메라 사용을 위해 추가
   //     };
-      
 
   //     const audioStream =
   //       await navigator.mediaDevices.getUserMedia(audioConstraints);
@@ -109,32 +109,32 @@ export default function VideoRecorder({
 
   // //TODO 아직 서버에 전송하는 코드 만들어야 함.
 
-  const [url, setUrl] = useState<string|null>(null);
-  
-  const handler = (event:React.ChangeEvent<HTMLInputElement>) => {
-      const selectedFile = event.target.files && event.target.files[0];
-      if (selectedFile){
-        const videoBlob = new Blob([selectedFile], { type: "video/mp4" });
+  const [url, setUrl] = useState<string | null>(null);
 
-        console.log("Video Blob:", videoBlob);
-        console.log("Video Blob:", videoBlob.size);
-        const videoUrl = URL.createObjectURL(videoBlob);
-        setUrl(videoUrl);
-      }
-  }
+  const handler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files && event.target.files[0];
+    if (selectedFile) {
+      const videoBlob = new Blob([selectedFile], { type: "video/mp4" });
+
+      console.log("Video Blob:", videoBlob);
+      console.log("Video Blob:", videoBlob.size);
+      const videoUrl = URL.createObjectURL(videoBlob);
+      setUrl(videoUrl);
+    }
+  };
   const downloadVideo = () => {
-
-        const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
-        navigate(`${navigateTo}`, {
-          state: {
-            videoUrl: url,
-            senderId: senderId,
-            receiverId: receiverId,
-            amount: amount,
-            name: name,
-            nickname: nickname,
-          },
-        });
+    const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
+    navigate(`${navigateTo}`, {
+      state: {
+        videoUrl: url,
+        senderId: senderId,
+        receiverId: receiverId,
+        transferId: transferId,
+        amount: amount,
+        name: name,
+        nickname: nickname,
+      },
+    });
   };
 
   // //사용자 정의 Hook
@@ -184,15 +184,26 @@ export default function VideoRecorder({
 
   return (
     <>
-    <Navbar type="back"> </Navbar>
-    <VideoWrapper>
-      {url ? <video src={url} autoPlay />:
-      <input ref={fileInputRef} type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture="user"/>}
-      <VideoContainer>
-        <CancelButton>취소</CancelButton>
-        <StoreButton onClick={downloadVideo}>완료</StoreButton>
-      </VideoContainer>
-    </VideoWrapper>
+      <Navbar type="back"> </Navbar>
+      <VideoWrapper>
+        {url ? (
+          <video src={url} autoPlay />
+        ) : (
+          <input
+            ref={fileInputRef}
+            type="file"
+            id="camera"
+            name="camera"
+            accept="video/*"
+            onChange={handler}
+            capture="user"
+          />
+        )}
+        <VideoContainer>
+          <CancelButton>취소</CancelButton>
+          <StoreButton onClick={downloadVideo}>완료</StoreButton>
+        </VideoContainer>
+      </VideoWrapper>
     </>
   );
 }
@@ -208,7 +219,7 @@ const VideoWrapper = styled.div`
   margin-right: auto;
   background-color: white;
   & > video {
-    margin-top:10px;
+    margin-top: 10px;
     position: relative;
     width: 393px;
     height: 85%;
