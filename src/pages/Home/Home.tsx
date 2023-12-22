@@ -188,7 +188,7 @@ export default function Home() {
                   navigate("/receiveheart", {
                     state: {
                       transfer: el,
-                      transferId: el.historyId,
+                      transferId: el.transferId,
                       // targetName:
                       //   el.senderId === userId
                       //     ? el.receiverName
