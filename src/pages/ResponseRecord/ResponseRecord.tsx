@@ -16,22 +16,26 @@ export default function ResponseRecord() {
   const receiverId = location.state.receiverId;
   const transferId = location.state.transferId;
 
+  console.log("responserecord", location.state.receiverName);
+  console.log("responserecord", location.state.receiverNickName);
   return (
     <>
       {!onRecord && (
-        <TransferRecordContainer>
+        <>
           <Navbar type="back"> </Navbar>
-          <H2>10초 이내로</H2>
-          <H2>영상을 촬영해주세요!</H2>
-          <img src={camera} alt="camera" width={120} />
-          <ButtonYellow
-            onClick={() => {
-              setOnRecord(true);
-            }}
-          >
-            촬영하기
-          </ButtonYellow>
-        </TransferRecordContainer>
+          <TransferRecordContainer>
+            <H2>10초 이내로</H2>
+            <H2>영상을 촬영해주세요!</H2>
+            <img src={camera} alt="camera" width={120} />
+            <ButtonYellow
+              onClick={() => {
+                setOnRecord(true);
+              }}
+            >
+              촬영하기
+            </ButtonYellow>
+          </TransferRecordContainer>
+        </>
       )}
       {onRecord && (
         <VideoRecorder
@@ -53,13 +57,14 @@ const TransferRecordContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  padding-top: 64px;
 
   & > h2:nth-child(2) {
-    padding-top: 36px;
+    /* padding-top: 36px; */
   }
 
-  & > h2:nth-child(3) {
-    margin-bottom: 180px;
+  & > img {
+    margin-top: 180px;
   }
 
   & > button {

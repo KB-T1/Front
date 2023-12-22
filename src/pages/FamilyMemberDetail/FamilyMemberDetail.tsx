@@ -107,63 +107,65 @@ export default function FamilyMemberDetail({
   };
 
   return (
-    <FamilyMemberDetailContainer isOpen={isOpen}>
+    <>
       {member && (
         <Navbar type="back">
           {member?.userName}({member?.nickname}님)과의 기록
         </Navbar>
       )}
-      <Profile
-        profile={member ? member.profile : ""}
-        name={member?.userName}
-        relationship={member?.nickname}
-        onProfileClick={onProfileClick}
-      ></Profile>
-      <Bar>
-        <img src={sendCall} alt="call" />
-        <img src={sendMsg} alt="message" />
-      </Bar>
-      <RecordBox>
-        <H3>주고받은 기록</H3>
-        <RecordBar call={30} message={30} send={30}></RecordBar>
-      </RecordBox>
+      <FamilyMemberDetailContainer isOpen={isOpen}>
+        <Profile
+          profile={member ? member.profile : ""}
+          name={member?.userName}
+          relationship={member?.nickname}
+          onProfileClick={onProfileClick}
+        ></Profile>
+        <Bar>
+          <img src={sendCall} alt="call" />
+          <img src={sendMsg} alt="message" />
+        </Bar>
+        <RecordBox>
+          <H3>주고받은 기록</H3>
+          <RecordBar call={30} message={30} send={30}></RecordBar>
+        </RecordBox>
 
-      <RecordHeartBox>
-        <H3>주고받은 마음</H3>
+        <RecordHeartBox>
+          <H3>주고받은 마음</H3>
 
-        {transferData.map((el, i) => {
-          console.log("receiveheart", el);
-          return (
-            <RecentBtn
-              key={i}
-              profile={
-                el.senderId === myId ? el.receiverProfile : el.senderProfile
-              }
-              name={el.senderId === myId ? el.receiverName : el.senderName}
-              relationship={
-                el.senderId === myId ? el.receiverNickName : el.senderNickName
-              }
-              amount={el.amount}
-              time={el.createdAt}
-              heart={el.amount === -1 ? true : false}
-              onClickTransfer={() => {
-                navigate("/receiveheart", { state: el });
-              }}
-            ></RecentBtn>
-          );
-        })}
-      </RecordHeartBox>
-      {isOpen && <ModalBox></ModalBox>}
-      <Modal
-        setTransferData={setTransferData}
-        targetedId={targetId}
-        targeterId={myId}
-        nickName={nickName}
-        setNickName={setNickName}
-        isOpen={isOpen}
-        onClose={onClose}
-      ></Modal>
-    </FamilyMemberDetailContainer>
+          {transferData.map((el, i) => {
+            console.log("receiveheart", el);
+            return (
+              <RecentBtn
+                key={i}
+                profile={
+                  el.senderId === myId ? el.receiverProfile : el.senderProfile
+                }
+                name={el.senderId === myId ? el.receiverName : el.senderName}
+                relationship={
+                  el.senderId === myId ? el.receiverNickName : el.senderNickName
+                }
+                amount={el.amount}
+                time={el.createdAt}
+                heart={el.amount === -1 ? true : false}
+                onClickTransfer={() => {
+                  navigate("/receiveheart", { state: el });
+                }}
+              ></RecentBtn>
+            );
+          })}
+        </RecordHeartBox>
+        {isOpen && <ModalBox></ModalBox>}
+        <Modal
+          setTransferData={setTransferData}
+          targetedId={targetId}
+          targeterId={myId}
+          nickName={nickName}
+          setNickName={setNickName}
+          isOpen={isOpen}
+          onClose={onClose}
+        ></Modal>
+      </FamilyMemberDetailContainer>
+    </>
   );
 }
 
@@ -172,6 +174,7 @@ const FamilyMemberDetailContainer = styled.div<{ isOpen: boolean }>`
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  padding-top: 48px;
 `;
 
 const ModalBox = styled.div`

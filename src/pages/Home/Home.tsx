@@ -66,7 +66,7 @@ export default function Home() {
 
       setRecentTransferList(
         transferListQuery.data.filter((el) => {
-          return el.receiverId === userId && el.amount !== -1;
+          return el.receiverId === userId;
         })[0]
       );
     }
@@ -75,13 +75,14 @@ export default function Home() {
   useEffect(() => {
     console.log(familydata);
     console.log("transferList", transferList);
+    console.log("recent", recentTransferList);
   }, [familydata, transferList]);
 
   const user = queryClient.getQueryData(["getUser", userId]);
 
   // 유저 가족 정보 & 송금 내역 가져오기
 
-  if (familyInfoQuery.isFetching || transferListQuery.isFetching) {
+  if (!familyInfoQuery.isSuccess) {
     return (
       <div
         style={{
@@ -186,15 +187,13 @@ export default function Home() {
                   }
                   navigate("/receiveheart", {
                     state: {
-                      historyId: el.historyId,
-                      amount: el.amount,
-                      videoUrl: el.videoUrl,
+                      transfer: el,
+                      transferId: el.historyId,
                       // targetName:
                       //   el.senderId === userId
                       //     ? el.receiverName
                       //     : el.senderName,
-                      senderName: el.senderName,
-                      senderNickName: el.senderNickName,
+                      targetId: el.senderId,
                     },
                   });
                 }}

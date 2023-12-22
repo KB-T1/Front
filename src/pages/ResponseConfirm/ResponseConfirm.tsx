@@ -22,6 +22,8 @@ export default function ResponseConfirm() {
   const senderId = location.state.senderId;
   const receiverId: number = location.state.receiverId;
   const transferId = location.state.transferId;
+  const name = location.state.name;
+  const nickname = location.state.nickname;
 
   const { isSuccess, data } = useGetTransferPersonal({
     targetUserId: receiverId,
@@ -35,6 +37,7 @@ export default function ResponseConfirm() {
         return el.historyId === transferId;
       })[transferList.length - 1];
 
+      console.log("tmpData", tmpData);
       setTransferInfo(tmpData);
     }
   }, [isSuccess]);
@@ -69,10 +72,7 @@ export default function ResponseConfirm() {
         <>
           <Navbar type="back"> </Navbar>
           <Header>
-            <H3>
-              {transferInfo &&
-                `${transferInfo.senderName}(${transferInfo.senderNickName}) 님에게`}
-            </H3>
+            <H3>{`${name}(${nickname}) 님에게`}</H3>
             <H3>답장을 보낼게요.</H3>
           </Header>
           <VideoBox>
@@ -88,10 +88,7 @@ export default function ResponseConfirm() {
       {realSend && (
         <>
           <Header2>
-            <H3>
-              {transferInfo &&
-                `${transferInfo.senderName}(${transferInfo.senderNickName}) 님에게`}
-            </H3>
+            <H3>{`${name}(${nickname}) 님에게`}</H3>
             <H3>답장을 보냈어요.</H3>
           </Header2>
           <VideoBox>
@@ -123,7 +120,7 @@ const TransferConfirmContainer = styled.div`
 
 const Header = styled.div`
   margin-left: 20px;
-  margin-top: 36px;
+  margin-top: 64px;
   margin-bottom: 36px;
 `;
 

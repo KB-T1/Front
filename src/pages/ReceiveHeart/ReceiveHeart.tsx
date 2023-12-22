@@ -15,7 +15,9 @@ import Confetti from "react-confetti";
 export default function ReceiveHeart() {
   const location = useLocation();
   const [onPlay, setOnPlay] = useState<number>(0);
-  const [transfer, setTransfer] = useState<TransferInfo>(location.state);
+  const [transfer, setTransfer] = useState<TransferInfo>(
+    location.state.transfer
+  );
 
   const targetId = location.state.receiverId;
   const transferId = location.state.transferId;
@@ -108,6 +110,8 @@ export default function ReceiveHeart() {
                   senderId: transfer.senderId,
                   receiverId: targetId,
                   transferId: transferId,
+                  receiverName: transfer.senderName,
+                  receiverNickName: transfer.senderNickName,
                 },
               });
             }}
@@ -133,13 +137,13 @@ const TransferConfirmContainer = styled.div`
 
 const Header = styled.div`
   margin-left: 20px;
-  margin-top: 36px;
+  margin-top: 64px;
   margin-bottom: 186px;
 `;
 
 const Header2 = styled.div`
   margin-left: 20px;
-  margin-top: 36px;
+  margin-top: 64px;
   margin-bottom: 36px;
 `;
 
