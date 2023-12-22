@@ -107,9 +107,17 @@ const TabButton = styled.button<{
         ? props.state === "shortslist"
           ? "url('../assets/videoSelected.png');"
           : "url('../assets/videoDefault.png');"
-        : props.state === "calendar"
-          ? "url('../assets/calendarSelected.png');"
-          : "url('../assets/calendarDefault.png');"};
+        : props.content === "calendar"
+          ? props.state === "calendar"
+            ? "url('../assets/calendarSelected.png');"
+            : "url('../assets/calendarDefault.png');"
+          : props.content === "ranking"
+            ? props.state === "ranking"
+              ? "url('../assets/rankingSelected.svg');"
+              : "url('../assets/rankingDefault.svg');"
+            : props.state === "challenge"
+              ? "url('../assets/challengeSelected.svg');"
+              : "url('../assets/challengeDefault.svg');"};
 
   background-position: center 10px;
   background-size: 24px;

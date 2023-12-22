@@ -16,6 +16,8 @@ import ResponseRecord from "./pages/ResponseRecord/ResponseRecord";
 import ResponseConfirm from "./pages/ResponseConfirm/ResponseConfirm";
 import SignUp from "./pages/SignUp/SignUp";
 import Calendar from "./pages/Calendar/Calendar";
+import Challenge from "./pages/Challenge/Challenge";
+import Ranking from "./pages/Ranking/Ranking";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/shortsdetail" element={<ShortsDetail />} />
           <Route path="/shortslist" element={<ShortsList />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/ranking" element={<Ranking />} />
+          <Route path="/challenge" element={<Challenge />} />
           <Route
             path="/transferAmountinput"
             element={<TransferAmountInput />}
