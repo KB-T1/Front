@@ -356,9 +356,9 @@ const Content = styled.div`
   width: 353px;
   flex-direction: column;
 
+  padding-top: 64px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 36px;
 
   & > hr {
     width: 100%;
@@ -396,7 +396,7 @@ const ModalContent = styled.div`
   width: 353px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 36px;
+  margin-top: 64px;
   border-radius: 20px;
 
   & > button {

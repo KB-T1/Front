@@ -86,7 +86,7 @@ async function signUpfunc(params: UserParams) {
     const data = response.data;
     console.log(data);
 
-    localStorage.setItem("userId", data.data.userId);
+    localStorage.setItem("userId", "6");
     localStorage.setItem("userName", data.data.userName);
     localStorage.setItem("profile", data.data.profile);
     localStorage.setItem("familyId", info.familyId.toString());
