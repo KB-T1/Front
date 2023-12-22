@@ -19,13 +19,14 @@ export default function ReceiveHeart() {
     location.state.transfer
   );
 
-  const targetId = location.state.receiverId;
+  const targetId = location.state.transfer.receiverId;
   const transferId = location.state.transferId;
 
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log("transfer", transfer);
+
     console.log();
   }, []);
 

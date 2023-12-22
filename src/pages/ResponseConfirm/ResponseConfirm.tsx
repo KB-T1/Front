@@ -37,7 +37,7 @@ export default function ResponseConfirm() {
         return el.historyId === transferId;
       })[transferList.length - 1];
 
-      console.log("tmpData", tmpData);
+      console.log("location state", location.state);
       setTransferInfo(tmpData);
     }
   }, [isSuccess]);

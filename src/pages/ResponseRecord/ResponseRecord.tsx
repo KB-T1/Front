@@ -17,6 +17,7 @@ export default function ResponseRecord() {
   const transferId = location.state.transferId;
 
   console.log("responserecord", location.state.receiverName);
+  console.log("receiverId", location.state.receiverId);
   console.log("responserecord", location.state.receiverNickName);
   return (
     <>
