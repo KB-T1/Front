@@ -23,7 +23,7 @@ const NotifyBarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 353px;
+  width: 393px;
   height: 50px;
   background-color: var(--main3, #ffe992);
   filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.1));
