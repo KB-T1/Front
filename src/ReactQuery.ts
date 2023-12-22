@@ -86,7 +86,7 @@ async function signUpfunc(params: UserParams) {
     const data = response.data;
     console.log(data);
 
-    localStorage.setItem("userId", "6");
+    localStorage.setItem("userId", "2");
     localStorage.setItem("userName", data.data.userName);
     localStorage.setItem("profile", data.data.profile);
     localStorage.setItem("familyId", info.familyId.toString());
@@ -234,9 +234,11 @@ async function getAccount(params: GetAccountParams) {
   if (!localStorageUserId) {
     throw new Error("user id not exist");
   }
-  const response = await axios.get(accountUrl + `my`, {params: {
-    userId: localStorageUserId
-  }});
+  const response = await axios.get(accountUrl + `my`, {
+    params: {
+      userId: localStorageUserId,
+    },
+  });
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
