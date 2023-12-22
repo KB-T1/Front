@@ -16,6 +16,7 @@ export default function TransferConfirm() {
   const location = useLocation();
 
   const videoUrl = location.state.videoUrl;
+  const videoFile = location.state.videoFile;
   const senderId = location.state.senderId;
   const name = location.state.name;
   const nickname = location.state.nickname;
@@ -33,7 +34,7 @@ export default function TransferConfirm() {
     amount: amount,
     senderId: senderId,
     receiverId: receiverId,
-    video: videoData,
+    video: videoFile,
     transferId: -1,
   });
 
