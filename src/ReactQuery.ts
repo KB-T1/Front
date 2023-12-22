@@ -6,14 +6,15 @@ import { Account } from "./types/account";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const baseUrl = "http://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/";
-const userUrl = "http://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/user/";
+const baseUrl = "https://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/";
+const userUrl =
+  "https://kbt1-ollilove-user-api.165.192.105.60.nip.io/api/user/";
 const transferUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/";
+  "https://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/";
 const historyUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/history";
+  "https://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/history";
 const accountUrl =
-  "http://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/account/";
+  "https://kbt1-ollilove-transfer-api.165.192.105.60.nip.io/transfer-api/account/";
 
 // **** GET/POST 맞는지 확인
 // **** 파라미터 확인
