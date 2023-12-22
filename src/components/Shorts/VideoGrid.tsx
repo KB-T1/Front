@@ -31,8 +31,10 @@ const VideoGridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
-  padding: 16px;
-  padding-top: 200px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  padding-top: 120px;
 
   width: 360px;
 `;
@@ -43,6 +45,7 @@ const VideoCard = styled.div`
 
   video {
     width: 100%;
+    border-radius: 10px;
     height: auto;
   }
 
@@ -50,7 +53,7 @@ const VideoCard = styled.div`
     position: absolute;
     bottom: 0;
     color: white;
-    padding-top: 15px;
+    margin-top: 15px;
     padding-bottom: 15px;
     padding-right: 15px;
     padding-left: 20px;

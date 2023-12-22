@@ -31,7 +31,7 @@ const VideoDetailContainer = styled.div`
   gap: 16px;
   padding-left: 16px;
   padding-right: 16px;
-  margin-top: 20px;
+  margin-top: 70px;
   width: 360px;
 `;
 
@@ -41,6 +41,7 @@ const VideoCard = styled.div`
 
   video {
     width: 100%;
+    border-radius: 10px;
     height: auto;
   }
 
