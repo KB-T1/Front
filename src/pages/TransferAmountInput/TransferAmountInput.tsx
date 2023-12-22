@@ -8,6 +8,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { QueryClient } from "react-query";
 import { useGetFamilyInfo } from "../../ReactQuery";
 import { FamilyMember } from "../../types/familyMember";
+import { useGetAccount } from "../../ReactQuery";
+import { Account } from "../../types/account";
 
 export default function TransferAmountInput() {
   const [amount, setAmount] = useState<number>(0);
@@ -17,7 +19,7 @@ export default function TransferAmountInput() {
   const [targetData, setTargetData] = useState<FamilyMember>();
   const [familyData, setFamilyData] = useState<FamilyMember[]>([]);
   const [fetched, setFetched] = useState<boolean>(false);
-  const myMoney = 500000;
+  const [myMoney, setMyMoney] = useState<Account>();
 
   // props로 받은 state 받기
   const location = useLocation();
@@ -34,6 +36,8 @@ export default function TransferAmountInput() {
 
   const user = queryClient.getQueryData(["getUser", userId]);
   const familyQuery = useGetFamilyInfo({});
+
+  const accountQuery = useGetAccount({ userId });
 
   // 가족 정보 받아와서 detail 가족 정보 찾기
   useEffect(() => {
@@ -54,6 +58,14 @@ export default function TransferAmountInput() {
   useEffect(() => {
     console.log(familyQuery.data);
   }, [familyQuery]);
+
+  //계좌정보
+  useEffect(() => {
+    if (accountQuery.isSuccess) {
+      setMyMoney(accountQuery.data);
+      console.log("accountdata", accountQuery.data);
+    }
+  }, [accountQuery.isSuccess]);
 
   return (
     <TransferAmountInputContainer>
@@ -97,13 +109,13 @@ export default function TransferAmountInput() {
         </MoneyBtn>
       </MoneyBtnWrapper>
       <Comment style={{ fontSize: "16px", width: "360px", textAlign: "right" }}>
-        출금 가능 금액: {myMoney.toLocaleString()}원
+        출금 가능 금액: {myMoney && myMoney.balance.toLocaleString()}원
       </Comment>
       {familyData.filter((el) => {
         return el.userId === location.state;
       })[0] &&
-      amount > 0 &&
-      amount <= myMoney ? (
+      amount > 0 && myMoney &&
+      amount <= myMoney.balance ? (
         <ButtonYellow
           onClick={() => {
             navigate("/transferrecord", {

@@ -234,7 +234,9 @@ async function getAccount(params: GetAccountParams) {
   if (!localStorageUserId) {
     throw new Error("user id not exist");
   }
-  const response = await axios.get(accountUrl + `my`);
+  const response = await axios.get(accountUrl + `my`, {params: {
+    userId: localStorageUserId
+  }});
   if (response.status !== 200) {
     throw new Error("Problem fetching data");
   }
