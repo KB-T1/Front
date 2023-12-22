@@ -11,6 +11,7 @@ import { useUploadVideo } from "../../ReactQuery";
 export default function TransferConfirm() {
   const [realSend, setRealSend] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [videoData, setVideoData] = useState<Blob>(new Blob());
 
   const location = useLocation();
 
@@ -28,27 +29,29 @@ export default function TransferConfirm() {
 
   const onClickHandler = () => {
     setRealSend(true);
+    TransferEvent();
   };
+
+  const uploadVideo = useUploadVideo({
+    amount: amount,
+    senderId: senderId,
+    receiverId: receiverId,
+    video: videoData,
+    transferId: -1,
+  });
 
   const TransferEvent = async () => {
     const response = await fetch(videoUrl);
     const blobData = await response.blob();
     // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
     const blobObject = new Blob([blobData], { type: "video/webm" });
-    const uploadVideo = useUploadVideo({
-      amount: amount,
-      senderId: senderId,
-      receiverId: receiverId,
-      video: blobObject,
-      transferId: -1,
-    });
+
+    setVideoData(blobObject);
+
     if (uploadVideo.isSuccess) {
       console.log("success");
     }
   };
-  useEffect(() => {
-    TransferEvent();
-  }, [onClickHandler]);
 
   return (
     <TransferConfirmContainer>
