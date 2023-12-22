@@ -232,8 +232,12 @@ const TransferContainer = styled.div`
 const RecentContainer = styled.div`
   margin: 0 20px;
   margin-top: 36px;
+  overflow-x: scroll;
 
   & > h3 {
     padding-bottom: 18px;
+  }
+  & > div:last-child {
+    margin-bottom: 80px;
   }
 `;

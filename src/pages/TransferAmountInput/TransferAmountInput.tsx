@@ -111,6 +111,8 @@ export default function TransferAmountInput() {
                 senderId: userId,
                 receiverId: targetData && targetData.userId,
                 amount: amount,
+                receiverName: targetData?.userName,
+                receiverNickName: targetData?.nickname,
               },
             });
           }}

@@ -315,11 +315,17 @@ async function uploadVideo(params: UploadVideoParams) {
 
   try {
     const formData = new FormData();
-    formData.append("video", info.video, "video.webm");
+    const vdo = new Blob([JSON.stringify(info.video)], {
+      type: "application/json",
+    });
+
+    formData.append("video", vdo, "video.webm");
     formData.append("amount", String(info.amount));
     formData.append("senderId", String(info.senderId));
     formData.append("receiverId", String(info.receiverId));
     formData.append("transferId", String(info.transferId));
+
+    console.log("formData", formData, info);
     const response = await axios.post(transferUrl + `transfer/new`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -338,7 +344,7 @@ async function uploadVideo(params: UploadVideoParams) {
 }
 
 export const useUploadVideo = (conditions: UploadVideoCondition) => {
-  return useQuery<String, Error>(["uploadVideo", conditions], () =>
+  return useMutation<String, Error>(["uploadVideo", conditions], () =>
     uploadVideo({
       queryKey: ["uploadVideo", { info: conditions }],
     })

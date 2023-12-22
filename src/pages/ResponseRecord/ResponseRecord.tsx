@@ -40,6 +40,8 @@ export default function ResponseRecord() {
           senderId={senderId}
           receiverId={receiverId}
           amount={-1}
+          name={location.state.receiverName}
+          nickname={location.state.receiverNickName}
         />
       )}
     </>

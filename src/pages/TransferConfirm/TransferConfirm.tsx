@@ -17,18 +17,15 @@ export default function TransferConfirm() {
 
   const videoUrl = location.state.videoUrl;
   const senderId = location.state.senderId;
+  const name = location.state.name;
+  const nickname = location.state.nickname;
   const receiverId = location.state.receiverId;
   const amount = location.state.amount;
   const transferId = -1;
 
-  const tmpData = {
-    name: "이수민",
-    relationship: "따님",
-    amount: 500000,
-  };
-
   const onClickHandler = () => {
     setRealSend(true);
+    console.log("state", location.state);
     TransferEvent();
   };
 
@@ -48,6 +45,7 @@ export default function TransferConfirm() {
 
     setVideoData(blobObject);
 
+    uploadVideo.mutate();
     if (uploadVideo.isSuccess) {
       console.log("success");
     }
@@ -60,9 +58,9 @@ export default function TransferConfirm() {
           <Navbar type="back"> </Navbar>
           <Header>
             <H3>
-              {tmpData.name}({tmpData.relationship}) 님에게
+              {name}({nickname}) 님에게
             </H3>
-            <H3>{tmpData.amount.toLocaleString()}원과 마음을 보낼게요.</H3>
+            <H3>{amount.toLocaleString()}원과 마음을 보낼게요.</H3>
           </Header>
           <VideoBox>
             <Video src={videoUrl} width={320} height={530}></Video>
@@ -78,9 +76,9 @@ export default function TransferConfirm() {
         <>
           <Header2>
             <H3>
-              {tmpData.name}({tmpData.relationship}) 님에게
+              {name}({nickname}) 님에게
             </H3>
-            <H3>{tmpData.amount.toLocaleString()}원과 마음을 보냈어요.</H3>
+            <H3>{amount.toLocaleString()}원과 마음을 보냈어요.</H3>
           </Header2>
           <VideoBox>
             <img src={heartLetter} alt="letter" width={120} />
@@ -111,7 +109,7 @@ const TransferConfirmContainer = styled.div`
 
 const Header = styled.div`
   margin-left: 20px;
-  margin-top: 36px;
+  margin-top: 80px;
   margin-bottom: 6px;
 `;
 

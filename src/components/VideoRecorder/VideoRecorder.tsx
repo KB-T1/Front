@@ -14,10 +14,18 @@ interface VideoRecorderProps {
   senderId: number;
   amount: number;
   transferId: number;
+  name: string;
+  nickname: string;
 }
 
-export default function VideoRecorder({ isReply, receiverId, senderId, amount }: VideoRecorderProps) {
-
+export default function VideoRecorder({
+  isReply,
+  receiverId,
+  senderId,
+  amount,
+  name,
+  nickname,
+}: VideoRecorderProps) {
   const navigate = useNavigate();
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
@@ -44,48 +52,48 @@ export default function VideoRecorder({ isReply, receiverId, senderId, amount }:
     reset();
   };
 
+  const getMediaPermission = useCallback(async () => {
+    try {
+      const audioConstraints = { audio: true };
+      const videoConstraints = {
+        audio: false,
+        video: {
+          facingMode: "user",
+          width: { ideal: 393 }, // 원하는 가로 크기
+          height: { ideal: 650 }, // 원하는 세로 크기
+        }, // 모바일에서 전면 카메라 사용을 위해 추가
+      };
 
-const getMediaPermission = useCallback(async () => {
-  try {
-    const audioConstraints = { audio: true };
-    const videoConstraints = {
-      audio: false,
-      video: { 
-        facingMode: 'user',
-        width: { ideal: 393 }, // 원하는 가로 크기
-        height: { ideal: 650 }, // 원하는 세로 크기
-      }, // 모바일에서 전면 카메라 사용을 위해 추가
-    };
+      const audioStream =
+        await navigator.mediaDevices.getUserMedia(audioConstraints);
+      const videoStream =
+        await navigator.mediaDevices.getUserMedia(videoConstraints);
 
-    const audioStream = await navigator.mediaDevices.getUserMedia(audioConstraints);
-    const videoStream = await navigator.mediaDevices.getUserMedia(videoConstraints);
+      if (videoRef.current) {
+        videoRef.current.srcObject = videoStream;
+      }
 
-    if (videoRef.current) {
-      videoRef.current.srcObject = videoStream;
+      // MediaRecorder 추가
+      const combinedStream = new MediaStream([
+        ...videoStream.getVideoTracks(),
+        ...audioStream.getAudioTracks(),
+      ]);
+
+      const recorder = new MediaRecorder(combinedStream, {
+        mimeType: "video/webm",
+      });
+
+      recorder.ondataavailable = (e) => {
+        if (typeof e.data === "undefined") return;
+        if (e.data.size === 0) return;
+        videoChunks.current.push(e.data);
+      };
+
+      mediaRecorder.current = recorder;
+    } catch (err) {
+      console.log(err);
     }
-
-    // MediaRecorder 추가
-    const combinedStream = new MediaStream([
-      ...videoStream.getVideoTracks(),
-      ...audioStream.getAudioTracks(),
-    ]);
-
-    const recorder = new MediaRecorder(combinedStream, {
-      mimeType: 'video/webm',
-    });
-
-    recorder.ondataavailable = (e) => {
-      if (typeof e.data === 'undefined') return;
-      if (e.data.size === 0) return;
-      videoChunks.current.push(e.data);
-    };
-
-    mediaRecorder.current = recorder;
-  } catch (err) {
-    console.log(err);
-  }
-}, []);
-
+  }, []);
 
   useEffect(() => {
     getMediaPermission();
@@ -100,14 +108,14 @@ const getMediaPermission = useCallback(async () => {
       mediaRecorder.current?.stop();
     }
     const videoBlob = new Blob(videoChunks.current, { type: "video/webm" });
-    
+
     console.log("Video Blob:", videoBlob);
     console.log("Video Blob:", videoBlob.size);
     const videoUrl = URL.createObjectURL(videoBlob);
     const link = document.createElement("a");
     link.download = `My video - ${dayjs().format("YYYYMMDD")}.webm`;
     link.href = videoUrl;
-    console.log(link)
+    console.log(link);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -116,7 +124,16 @@ const getMediaPermission = useCallback(async () => {
     reset();
 
     const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
-    navigate(`${navigateTo}`, {state: {videoUrl:link.href, senderId:senderId, receiverId: receiverId, amount: amount}});
+    navigate(`${navigateTo}`, {
+      state: {
+        videoUrl: link.href,
+        senderId: senderId,
+        receiverId: receiverId,
+        amount: amount,
+        name: name,
+        nickname: nickname,
+      },
+    });
   };
 
   //사용자 정의 Hook
