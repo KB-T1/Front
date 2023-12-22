@@ -13,7 +13,7 @@ import { TransferInfo } from "../../types/transferInfo";
 export default function ResponseConfirm() {
   const [realSend, setRealSend] = useState<boolean>(false);
   const [transferInfo, setTransferInfo] = useState<TransferInfo>();
-
+  const [fileSuccess, setFileSuccess] = useState<boolean>();
   const [videoData, setVideoData] = useState<Blob>(new Blob());
   const location = useLocation();
 
@@ -61,11 +61,18 @@ export default function ResponseConfirm() {
     const blobData = await response.blob();
     // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
     setVideoData(new Blob([blobData], { type: "video/webm" }));
-
+    setFileSuccess(true);
     if (uploadVideo.isSuccess) {
       console.log("success");
     }
   };
+
+  useEffect(() => {
+    if (fileSuccess) {
+      uploadVideo.mutate();
+    }
+  }, [fileSuccess]);
+
   return (
     <TransferConfirmContainer>
       {!realSend && (
