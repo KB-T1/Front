@@ -4,6 +4,7 @@ import videoStartImg from "../../assets/videoStart.png";
 import videoPlayImg from "../../assets/videoPlay.png";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Navbar } from "../../commons/Navbar";
 
 // 동영상 촬영을 위한 컴포넌트
 // https://9ummy.tistory.com/24 참고
@@ -27,181 +28,164 @@ export default function VideoRecorder({
   nickname,
 }: VideoRecorderProps) {
   const navigate = useNavigate();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const mediaRecorder = useRef<MediaRecorder | null>(null);
-  const videoChunks = useRef<Blob[]>([]);
+  // const videoRef = useRef<HTMLVideoElement>(null);
+  // const mediaRecorder = useRef<MediaRecorder | null>(null);
+  // const videoChunks = useRef<Blob[]>([]);
 
-  const [isRecorded, setIsRecorded] = useState<boolean>(false);
+  // const [isRecorded, setIsRecorded] = useState<boolean>(false);
 
-  const videoChangeState = () => {
-    if (!isRecorded) {
-      setIsRecorded(!isRecorded);
-      mediaRecorder.current?.start();
-      start();
-    } else {
-      setIsRecorded(!isRecorded);
-      mediaRecorder.current?.stop();
-      stop();
-    }
-  };
+  // const videoChangeState = () => {
+  //   if (!isRecorded) {
+  //     setIsRecorded(!isRecorded);
+  //     mediaRecorder.current?.start();
+  //     start();
+  //   } else {
+  //     setIsRecorded(!isRecorded);
+  //     mediaRecorder.current?.stop();
+  //     stop();
+  //   }
+  // };
 
-  const onClickCancel = () => {
-    mediaRecorder.current = null;
-    videoChunks.current = [];
-    setIsRecorded(false);
-    reset();
-  };
+  // const onClickCancel = () => {
+  //   mediaRecorder.current = null;
+  //   videoChunks.current = [];
+  //   setIsRecorded(false);
+  //   reset();
+  // };
 
-  const getMediaPermission = useCallback(async () => {
-    try {
-      const audioConstraints = { audio: true };
-      const videoConstraints = {
-        audio: false,
-        video: true, // 모바일에서 전면 카메라 사용을 위해 추가
-      };
+  // const getMediaPermission = useCallback(async () => {
+  //   try {
+  //     const audioConstraints = { audio: true };
+  //     const videoConstraints = {
+  //       audio: false,
+  //       video: true, // 모바일에서 전면 카메라 사용을 위해 추가
+  //     };
       
 
-      const audioStream =
-        await navigator.mediaDevices.getUserMedia(audioConstraints);
-      const videoStream =
-        await navigator.mediaDevices.getUserMedia(videoConstraints);
+  //     const audioStream =
+  //       await navigator.mediaDevices.getUserMedia(audioConstraints);
+  //     const videoStream =
+  //       await navigator.mediaDevices.getUserMedia(videoConstraints);
 
-      if (videoRef.current) {
-        videoRef.current.srcObject = videoStream;
+  //     if (videoRef.current) {
+  //       videoRef.current.srcObject = videoStream;
+  //     }
+
+  //     // MediaRecorder 추가
+  //     const combinedStream = new MediaStream([
+  //       ...videoStream.getVideoTracks(),
+  //       ...audioStream.getAudioTracks(),
+  //     ]);
+
+  //     const recorder = new MediaRecorder(combinedStream, {
+  //       mimeType: "video/webm",
+  //     });
+
+  //     recorder.ondataavailable = (e) => {
+  //       if (typeof e.data === "undefined") return;
+  //       if (e.data.size === 0) return;
+  //       videoChunks.current.push(e.data);
+  //     };
+
+  //     mediaRecorder.current = recorder;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   getMediaPermission();
+  // }, []);
+
+  // // 동영상 Blob으로 바꿔서 로컬에 저장
+
+  // //TODO 아직 서버에 전송하는 코드 만들어야 함.
+
+  const [url, setUrl] = useState<string|null>(null);
+  
+  const handler = (event:React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = event.target.files && event.target.files[0];
+      if (selectedFile){
+        const videoBlob = new Blob([selectedFile], { type: "video/webm" });
+
+        console.log("Video Blob:", videoBlob);
+        console.log("Video Blob:", videoBlob.size);
+        const videoUrl = URL.createObjectURL(videoBlob);
+        setUrl(videoUrl);
       }
-
-      // MediaRecorder 추가
-      const combinedStream = new MediaStream([
-        ...videoStream.getVideoTracks(),
-        ...audioStream.getAudioTracks(),
-      ]);
-
-      const recorder = new MediaRecorder(combinedStream, {
-        mimeType: "video/webm",
-      });
-
-      recorder.ondataavailable = (e) => {
-        if (typeof e.data === "undefined") return;
-        if (e.data.size === 0) return;
-        videoChunks.current.push(e.data);
-      };
-
-      mediaRecorder.current = recorder;
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
-  useEffect(() => {
-    getMediaPermission();
-  }, []);
-
-  // 동영상 Blob으로 바꿔서 로컬에 저장
-
-  //TODO 아직 서버에 전송하는 코드 만들어야 함.
-
+  }
   const downloadVideo = () => {
-    if (mediaRecorder.current) {
-      mediaRecorder.current?.stop();
-      reset();
-      setIsRecorded(false);
-    }
 
-    setTimeout(()=>{
-      const videoBlob = new Blob(videoChunks.current, { type: "video/webm" });
-
-      console.log("Video Blob:", videoBlob);
-      console.log("Video Blob:", videoBlob.size);
-      const videoUrl = URL.createObjectURL(videoBlob);
-      const link = document.createElement("a");
-      link.download = `My video - ${dayjs().format("YYYYMMDD")}.webm`;
-      link.href = videoUrl;
-      console.log(link);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
-      navigate(`${navigateTo}`, {
-        state: {
-          videoUrl: link.href,
-          senderId: senderId,
-          receiverId: receiverId,
-          amount: amount,
-          name: name,
-          nickname: nickname,
-        },
-      });
-    }, 2000)
+        const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
+        navigate(`${navigateTo}`, {
+          state: {
+            videoUrl: url,
+            senderId: senderId,
+            receiverId: receiverId,
+            amount: amount,
+            name: name,
+            nickname: nickname,
+          },
+        });
   };
 
-  //사용자 정의 Hook
-  const useCounter = (initialValue: number, ms: number) => {
-    const [count, setCount] = useState(initialValue);
-    const intervalRef = useRef<number | null>(null);
-    const start = useCallback(() => {
-      if (intervalRef.current !== null) {
-        return;
-      }
-      intervalRef.current = window.setInterval(() => {
-        setCount((c) => c + 1);
-      }, ms);
-    }, []);
-    const stop = useCallback(() => {
-      if (intervalRef.current === null) {
-        return;
-      }
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }, []);
-    const reset = useCallback(() => {
-      setCount(0);
-      stop();
-    }, []);
-    return { count, start, stop, reset };
-  };
+  // //사용자 정의 Hook
+  // const useCounter = (initialValue: number, ms: number) => {
+  //   const [count, setCount] = useState(initialValue);
+  //   const intervalRef = useRef<number | null>(null);
+  //   const start = useCallback(() => {
+  //     if (intervalRef.current !== null) {
+  //       return;
+  //     }
+  //     intervalRef.current = window.setInterval(() => {
+  //       setCount((c) => c + 1);
+  //     }, ms);
+  //   }, []);
+  //   const stop = useCallback(() => {
+  //     if (intervalRef.current === null) {
+  //       return;
+  //     }
+  //     clearInterval(intervalRef.current);
+  //     intervalRef.current = null;
+  //   }, []);
+  //   const reset = useCallback(() => {
+  //     setCount(0);
+  //     stop();
+  //   }, []);
+  //   return { count, start, stop, reset };
+  // };
 
-  const [currentHours, setCurrentHours] = useState(0);
-  const [currentMinutes, setCurrentMinutes] = useState(0);
-  const [currentSeconds, setCurrentSeconds] = useState(0);
-  const { count, start, stop, reset } = useCounter(0, 1000);
+  // const [currentHours, setCurrentHours] = useState(0);
+  // const [currentMinutes, setCurrentMinutes] = useState(0);
+  // const [currentSeconds, setCurrentSeconds] = useState(0);
+  // const { count, start, stop, reset } = useCounter(0, 1000);
 
-  // 타이머 기능
-  const timer = () => {
-    const checkMinutes = Math.floor(count / 60);
-    const hours = Math.floor(count / 3600);
-    const minutes = checkMinutes % 60;
-    const seconds = count % 60;
-    setCurrentHours(hours);
-    setCurrentSeconds(seconds);
-    setCurrentMinutes(minutes);
-  };
+  // // 타이머 기능
+  // const timer = () => {
+  //   const checkMinutes = Math.floor(count / 60);
+  //   const hours = Math.floor(count / 3600);
+  //   const minutes = checkMinutes % 60;
+  //   const seconds = count % 60;
+  //   setCurrentHours(hours);
+  //   setCurrentSeconds(seconds);
+  //   setCurrentMinutes(minutes);
+  // };
 
   // count의 변화에 따라 timer 함수 랜더링
-  useEffect(timer, [count]);
+  // useEffect(timer, [count]);
 
   return (
+    <>
+    <Navbar type="back"> </Navbar>
     <VideoWrapper>
-      <video ref={videoRef} autoPlay />
+      {url ? <video src={url} autoPlay />:
+      <input type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture/>}
       <VideoContainer>
-        <TimerContainer>
-          <Timer>
-            {currentHours < 10 ? `0${currentHours}` : currentHours}:
-            {currentMinutes < 10 ? `0${currentMinutes}` : currentMinutes}:
-            {currentSeconds < 10 ? `0${currentSeconds}` : currentSeconds}
-          </Timer>
-        </TimerContainer>
-        <CancelButton onClick={onClickCancel}>취소</CancelButton>
-        <VideoPlayButton onClick={videoChangeState} state={isRecorded}>
-          {isRecorded ? (
-            <img src={videoPlayImg} />
-          ) : (
-            <img src={videoStartImg} />
-          )}
-        </VideoPlayButton>
+        <CancelButton>취소</CancelButton>
         <StoreButton onClick={downloadVideo}>완료</StoreButton>
       </VideoContainer>
     </VideoWrapper>
+    </>
   );
 }
 
@@ -216,10 +200,19 @@ const VideoWrapper = styled.div`
   margin-right: auto;
   background-color: white;
   & > video {
+    margin-top:10px;
     position: relative;
     width: 393px;
     height: 85%;
     object-fit: cover;
+  }
+  & > input {
+    width: 393px;
+    padding-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
   }
 `;
 
@@ -254,6 +247,7 @@ const VideoContainer = styled.div`
 
   flex-grow: 1;
 
+  justify-content: space-between;
   margin-left: 10%;
   margin-right: 10%;
 `;
