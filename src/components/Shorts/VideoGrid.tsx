@@ -17,7 +17,7 @@ export const VideoGrid = ( { videos } : VideoProps ) => {
         <VideoCard key={video.videoId} onClick={()=>{
           navigate('/shortsdetail', { state : {video:video, videos:videos}})
         }}>
-          <video src={video.videoUrl} autoPlay/>
+          <video src={video.videoUrl} autoPlay loop/>
           <div>
             <p>{video.name}</p>
           </div>

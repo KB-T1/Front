@@ -15,7 +15,7 @@ export const VideoDetail = ( { videos } : VideoProps ) => {
     <VideoDetailContainer>
       {videos.map((video) => (
         <VideoCard key={video.videoId}>
-          <video src={video.videoUrl} autoPlay/>
+          <video src={video.videoUrl} autoPlay loop/>
           <div>
             <p>{video.name}</p>
           </div>
