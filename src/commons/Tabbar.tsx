@@ -45,6 +45,26 @@ export function Tabbar() {
       >
         <Comment2>캘린더</Comment2>
       </TabButton>
+      <TabButton
+        onClick={() => {
+          handleClick("ranking");
+          navigate("/ranking");
+        }}
+        state={tabbarState}
+        content="ranking"
+      >
+        <Comment2>랭킹</Comment2>
+      </TabButton>
+      <TabButton
+        onClick={() => {
+          handleClick("challenge");
+          navigate("/challenge");
+        }}
+        state={tabbarState}
+        content="challenge"
+      >
+        <Comment2>챌린지</Comment2>
+      </TabButton>
     </TabbarContainer>
   );
 }

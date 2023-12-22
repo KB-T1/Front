@@ -2,6 +2,7 @@ import styled from "styled-components";
 import profileBibi from "../../assets/profilePicBibi.svg";
 import { P2, Comment2 } from "../../commons/Text";
 import heartImg from "../../assets/heart.svg";
+import { profileMatcher } from "../../utils/profileMatcher";
 
 interface RecentBtnProps {
   profile: string;
@@ -29,7 +30,7 @@ export function RecentBtn({
   return (
     <RecentBtnContainer onClick={onClickTransfer}>
       <div>
-        <img src={profileBibi} />
+        <img src={profileMatcher(profile)} width={32} />
         <div>
           <P2>
             {name}({relationship})
@@ -56,12 +57,15 @@ const RecentBtnContainer = styled.div`
   padding-left: 24px;
   padding-right: 24px;
   box-sizing: border-box;
-  width: 393px;
+  width: 95%;
+  max-width: 420px;
   height: 80px;
   box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
   background: var(--white, #fff);
   margin-bottom: 12px;
   border-radius: 20px;
+
+  overflow: scroll;
 
   .send {
     color: #f06687;
