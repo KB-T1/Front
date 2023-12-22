@@ -90,7 +90,9 @@ async function signUpfunc(params: UserParams) {
     localStorage.setItem("userName", data.data.userName);
     localStorage.setItem("profile", data.data.profile);
     localStorage.setItem("familyId", info.familyId.toString());
+
     return data;
+    
   } else {
     throw new Error("Problem fetching data");
   }
