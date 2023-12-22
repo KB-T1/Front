@@ -56,7 +56,7 @@ const RecentBtnContainer = styled.div`
   padding-left: 24px;
   padding-right: 24px;
   box-sizing: border-box;
-  width: 353px;
+  width: 393px;
   height: 80px;
   box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
   background: var(--white, #fff);
