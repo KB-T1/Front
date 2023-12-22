@@ -9,7 +9,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useUploadVideo } from "../../ReactQuery";
 
 export default function TransferConfirm() {
-
   const [realSend, setRealSend] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -19,7 +18,7 @@ export default function TransferConfirm() {
   const senderId = location.state.senderId;
   const receiverId = location.state.receiverId;
   const amount = location.state.amount;
-  const transferId = -1
+  const transferId = -1;
 
   const tmpData = {
     name: "이수민",
@@ -29,21 +28,27 @@ export default function TransferConfirm() {
 
   const onClickHandler = () => {
     setRealSend(true);
-  }
-  
-  const TransferEvent = async() => {
-  const response = await fetch(videoUrl);
-  const blobData = await response.blob();
+  };
+
+  const TransferEvent = async () => {
+    const response = await fetch(videoUrl);
+    const blobData = await response.blob();
     // 가져온 Blob 데이터를 사용하여 Blob 객체 생성
     const blobObject = new Blob([blobData], { type: "video/webm" });
-    const uploadVideo = useUploadVideo({amount:amount, senderId:senderId, receiverId:receiverId, video:blobObject, transferId:-1});
-    if (uploadVideo.isSuccess){
-      console.log('success')
+    const uploadVideo = useUploadVideo({
+      amount: amount,
+      senderId: senderId,
+      receiverId: receiverId,
+      video: blobObject,
+      transferId: -1,
+    });
+    if (uploadVideo.isSuccess) {
+      console.log("success");
     }
-}
-  useEffect(()=>{
+  };
+  useEffect(() => {
     TransferEvent();
-  }, [onClickHandler])
+  }, [onClickHandler]);
 
   return (
     <TransferConfirmContainer>
@@ -57,18 +62,13 @@ export default function TransferConfirm() {
             <H3>{tmpData.amount.toLocaleString()}원과 마음을 보낼게요.</H3>
           </Header>
           <VideoBox>
-          <Video src={videoUrl} width={320} height={530}>
-          </Video>
+            <Video src={videoUrl} width={320} height={530}></Video>
             <span>
               <input type="checkbox" />
               답장 꼭 받기
             </span>
           </VideoBox>
-          <ButtonYellow
-            onClick={onClickHandler}
-          >
-            마음 보내기
-          </ButtonYellow>
+          <ButtonYellow onClick={onClickHandler}>마음 보내기</ButtonYellow>
         </>
       )}
       {realSend && (
@@ -130,7 +130,6 @@ const VideoBox = styled.div`
     margin-bottom: 1rem;
   }
 `;
-
 
 const Video = styled.video`
   width: 320px;

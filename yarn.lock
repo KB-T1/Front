@@ -10685,10 +10685,18 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-react-is@^18.0.0:
+react-is@^18.0.0, react-is@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-loader-spinner@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/react-loader-spinner/-/react-loader-spinner-6.1.4.tgz#9a687d85827d81ad0412c16df5d9d0ec75cd82b1"
+  integrity sha512-lzMB5nEgEgF0+TW2LxGaiURDrK2oazw//+6R5ExZ1kbYvSdzNnfRhFVEHOjEpNrUWtVmnjAJ0Z/sYCbrU+ukgg==
+  dependencies:
+    react-is "^18.2.0"
+    styled-components "^6.1.2"
 
 react-query@^3.39.3:
   version "3.39.3"

@@ -11,18 +11,20 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FamilyMember } from "../../types/familyMember";
 import { TransferInfo } from "../../types/transferInfo";
 import Confetti from "react-confetti";
+
 export default function ReceiveHeart() {
   const location = useLocation();
   const [onPlay, setOnPlay] = useState<number>(0);
   const [transfer, setTransfer] = useState<TransferInfo>(location.state);
 
-  const targetId = location.state.targetId;
+  const targetId = location.state.receiverId;
   const transferId = location.state.transferId;
 
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log("transfer", transfer);
+    console.log();
   }, []);
 
   return (
@@ -70,7 +72,8 @@ export default function ReceiveHeart() {
             <H3>용돈을 받아보세요.</H3>
           </Header2>
           <VideoBox>
-            <img src={tmpVideo} alt="video" width={250} />
+            {/* <img src={tmpVideo} alt="video" width={250} /> */}
+            <video src="/assets/video1.mp4" width={250} autoPlay />
           </VideoBox>
           <ButtonYellow
             onClick={() => {
@@ -89,7 +92,11 @@ export default function ReceiveHeart() {
             <H3>
               {transfer.senderName}({transfer.senderNickName}) 님에게
             </H3>
-            <H3>{transfer.amount.toLocaleString()}원을 받았어요.</H3>
+            <H3>
+              {transfer.amount === -1
+                ? `마음을 받았어요.`
+                : `${transfer.amount.toLocaleString()}원을 받았어요.`}
+            </H3>
           </Header>
           <VideoBox>
             <img src={money} alt="letter" width={250} />
@@ -146,5 +153,9 @@ const VideoBox = styled.div`
 
   & > img {
     margin-bottom: 1rem;
+  }
+
+  & > video {
+    margin-top: 102px;
   }
 `;

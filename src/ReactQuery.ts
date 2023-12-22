@@ -269,7 +269,9 @@ async function getTransferPersonal(params: TransferPersonalParams) {
   }
   const response = await axios.get(historyUrl + `/with`, {
     params: {
-      targetUserId: params.queryKey[1].info.targetUserId,
+      targetUserId: params.queryKey[1].info.targetUserId
+        ? params.queryKey[1].info.targetUserId
+        : 2,
       userId: localStorageUserId,
       count: 10,
     },
