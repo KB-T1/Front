@@ -320,7 +320,7 @@ async function uploadVideo(params: UploadVideoParams) {
     formData.append("senderId", String(info.senderId));
     formData.append("receiverId", String(info.receiverId));
     formData.append("transferId", String(info.transferId));
-    const response = await axios.post(transferUrl + `/new`, formData, {
+    const response = await axios.post(transferUrl + `transfer/new`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
