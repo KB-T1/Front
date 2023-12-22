@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { H3 } from "../../commons/Text";
 import { Tabbar } from "../../commons/Tabbar";
@@ -7,6 +7,7 @@ import { VideoDetail } from "../../components/Shorts/VideoDetail";
 import { Navbar } from "../../commons/Navbar";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Video } from "../../types/video";
+
 export default function ShortsDetail() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,6 +15,31 @@ export default function ShortsDetail() {
   const video: Video = location.state.video;
   const index: number = videolist.indexOf(video);
   const videos = videolist.slice(index).concat(videolist.slice(0, index - 1));
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (!videoRef.current) return;
+
+      if (entry.isIntersecting) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    });
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
 
   return (
     <ShortsWrapper>
@@ -25,7 +51,7 @@ export default function ShortsDetail() {
       >
         {" "}
       </Navbar>
-      <VideoDetail videos={videos} />
+      <VideoDetail videoRef={videoRef} videos={videos} />
       <Tabbar />
     </ShortsWrapper>
   );
