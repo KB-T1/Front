@@ -27,11 +27,11 @@ export function Tabbar() {
       </TabButton>
       <TabButton
         onClick={() => {
-          handleClick("video");
-          navigate("/video");
+          handleClick("shortslist");
+          navigate("/shortslist");
         }}
         state={tabbarState}
-        content="video"
+        content="shortslist"
       >
         <Comment2>보관함</Comment2>
       </TabButton>
@@ -83,8 +83,8 @@ const TabButton = styled.button<{
       ? props.state === "home"
         ? "url('../assets/homeSelected.png');"
         : "url('../assets/homeDefault.png');"
-      : props.content === "video"
-        ? props.state === "video"
+      : props.content === "shortslist"
+        ? props.state === "shortslist"
           ? "url('../assets/videoSelected.png');"
           : "url('../assets/videoDefault.png');"
         : props.state === "calendar"
