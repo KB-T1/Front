@@ -38,7 +38,7 @@ export const VideoDetail = ({ videos }: VideoProps) => {
     <VideoDetailContainer>
       {videos.map((video) => (
         <VideoCard key={video.videoId}>
-          <video ref={videoRef} autoPlay controls>
+          <video ref={videoRef} controls>
             <source src={video.videoUrl} type="video/mp4" />
           </video>
           <div>
@@ -57,7 +57,7 @@ const VideoDetailContainer = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   margin-top: 70px;
-  width: 360px;
+  width: 90%;
 `;
 
 const VideoCard = styled.div`

@@ -4,20 +4,24 @@ import styled from "styled-components";
 import { Video } from "../../types/video";
 
 interface VideoProps {
-    videos : Video[]
+  videos: Video[];
 }
 
-export const VideoGrid = ( { videos } : VideoProps ) => {
-
+export const VideoGrid = ({ videos }: VideoProps) => {
   const navigate = useNavigate();
 
   return (
     <VideoGridContainer>
       {videos.map((video) => (
-        <VideoCard key={video.videoId} onClick={()=>{
-          navigate('/shortsdetail', { state : {video:video, videos:videos}})
-        }}>
-          <video src={video.videoUrl} autoPlay loop/>
+        <VideoCard
+          key={video.videoId}
+          onClick={() => {
+            navigate("/shortsdetail", {
+              state: { video: video, videos: videos },
+            });
+          }}
+        >
+          <video src={video.videoUrl} />
           <div>
             <p>{video.name}</p>
           </div>
@@ -62,12 +66,10 @@ const VideoCard = styled.div`
 `;
 
 const DateContainer = styled.div`
-
   font-size: 20px;
   font-family: "KBFGDisplayB";
   margin: 0;
   color: white;
   margin-left: 270px;
   top: 5%;
-
 `;
