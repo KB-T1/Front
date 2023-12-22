@@ -57,11 +57,7 @@ export default function VideoRecorder({
       const audioConstraints = { audio: true };
       const videoConstraints = {
         audio: false,
-        video: {
-          facingMode: "user",
-          width: { ideal: 393 }, // 원하는 가로 크기
-          height: { ideal: 650 }, // 원하는 세로 크기
-        }, // 모바일에서 전면 카메라 사용을 위해 추가
+        video: true, // 모바일에서 전면 카메라 사용을 위해 추가
       };
       
 
