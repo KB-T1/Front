@@ -63,6 +63,7 @@ export default function VideoRecorder({
           height: { ideal: 650 }, // 원하는 세로 크기
         }, // 모바일에서 전면 카메라 사용을 위해 추가
       };
+      
 
       const audioStream =
         await navigator.mediaDevices.getUserMedia(audioConstraints);
@@ -106,34 +107,36 @@ export default function VideoRecorder({
   const downloadVideo = () => {
     if (mediaRecorder.current) {
       mediaRecorder.current?.stop();
+      reset();
+      setIsRecorded(false);
     }
-    const videoBlob = new Blob(videoChunks.current, { type: "video/webm" });
 
-    console.log("Video Blob:", videoBlob);
-    console.log("Video Blob:", videoBlob.size);
-    const videoUrl = URL.createObjectURL(videoBlob);
-    const link = document.createElement("a");
-    link.download = `My video - ${dayjs().format("YYYYMMDD")}.webm`;
-    link.href = videoUrl;
-    console.log(link);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    setTimeout(()=>{
+      const videoBlob = new Blob(videoChunks.current, { type: "video/webm" });
 
-    setIsRecorded(false);
-    reset();
+      console.log("Video Blob:", videoBlob);
+      console.log("Video Blob:", videoBlob.size);
+      const videoUrl = URL.createObjectURL(videoBlob);
+      const link = document.createElement("a");
+      link.download = `My video - ${dayjs().format("YYYYMMDD")}.webm`;
+      link.href = videoUrl;
+      console.log(link);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-    const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
-    navigate(`${navigateTo}`, {
-      state: {
-        videoUrl: link.href,
-        senderId: senderId,
-        receiverId: receiverId,
-        amount: amount,
-        name: name,
-        nickname: nickname,
-      },
-    });
+      const navigateTo = isReply ? "/responseconfirm" : "/transferconfirm";
+      navigate(`${navigateTo}`, {
+        state: {
+          videoUrl: link.href,
+          senderId: senderId,
+          receiverId: receiverId,
+          amount: amount,
+          name: name,
+          nickname: nickname,
+        },
+      });
+    }, 2000)
   };
 
   //사용자 정의 Hook
