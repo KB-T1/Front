@@ -325,7 +325,7 @@ async function uploadVideo(params: UploadVideoParams) {
       type: "application/json",
     });
 
-    formData.append("video", vdo, "video.webm");
+    formData.append("video", vdo, "video.mp4");
     formData.append("amount", String(info.amount));
     formData.append("senderId", String(info.senderId));
     formData.append("receiverId", String(info.receiverId));

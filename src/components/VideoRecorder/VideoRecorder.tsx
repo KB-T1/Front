@@ -114,7 +114,7 @@ export default function VideoRecorder({
   const handler = (event:React.ChangeEvent<HTMLInputElement>) => {
       const selectedFile = event.target.files && event.target.files[0];
       if (selectedFile){
-        const videoBlob = new Blob([selectedFile], { type: "video/webm" });
+        const videoBlob = new Blob([selectedFile], { type: "video/mp4" });
 
         console.log("Video Blob:", videoBlob);
         console.log("Video Blob:", videoBlob.size);
@@ -187,7 +187,7 @@ export default function VideoRecorder({
     <Navbar type="back"> </Navbar>
     <VideoWrapper>
       {url ? <video src={url} autoPlay />:
-      <input ref={fileInputRef} type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture/>}
+      <input ref={fileInputRef} type="file" id="camera" name="camera" accept="video/*" onChange={handler} capture="user"/>}
       <VideoContainer>
         <CancelButton>취소</CancelButton>
         <StoreButton onClick={downloadVideo}>완료</StoreButton>

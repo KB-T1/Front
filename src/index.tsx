@@ -14,13 +14,11 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient()
 
 root.render(
-  <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <div className="root">
         <App />
       </div>
     </QueryClientProvider>
-  </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change
