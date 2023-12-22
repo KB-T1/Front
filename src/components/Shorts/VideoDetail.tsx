@@ -7,33 +7,31 @@ interface VideoProps {
     videos : Video[]
 }
 
-export const VideoGrid = ( { videos } : VideoProps ) => {
+export const VideoDetail = ( { videos } : VideoProps ) => {
 
   const navigate = useNavigate();
 
   return (
-    <VideoGridContainer>
+    <VideoDetailContainer>
       {videos.map((video) => (
-        <VideoCard key={video.videoId} onClick={()=>{
-          navigate('/shortsdetail', { state : {video:video, videos:videos}})
-        }}>
+        <VideoCard key={video.videoId}>
           <video src={video.videoUrl} autoPlay/>
           <div>
             <p>{video.name}</p>
           </div>
         </VideoCard>
       ))}
-    </VideoGridContainer>
+    </VideoDetailContainer>
   );
 };
 
-const VideoGridContainer = styled.div`
+const VideoDetailContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 16px;
-  padding: 16px;
-  padding-top: 200px;
-
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-top: 20px;
   width: 360px;
 `;
 
@@ -50,10 +48,7 @@ const VideoCard = styled.div`
     position: absolute;
     bottom: 0;
     color: white;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    padding-right: 15px;
-    padding-left: 20px;
+    padding: 15px;
     width: 100%;
   }
 `;
