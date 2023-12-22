@@ -13,30 +13,22 @@ export const VideoDetail = ({ videos }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [ref, inView] = useInView();
 
-  const videoRefs = videos.map(() =>
-    React.useRef<HTMLVideoElement | null>(null)
-  );
+  useEffect(() => {
+    if (videoRef.current) {
+      if (inView) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  }, [inView]);
 
   return (
     <VideoDetailContainer>
       {videos.map((video, i) => {
-        const [ref, inView] = useInView({
-          triggerOnce: true, // 한 번만 감지하도록 설정
-        });
-
-        useEffect(() => {
-          if (videoRef.current) {
-            if (inView) {
-              videoRef.current.play();
-            } else {
-              videoRef.current.pause();
-            }
-          }
-        }, [inView]);
-
         return (
           <VideoCard ref={ref} key={video.videoId}>
-            <video ref={videoRefs[i]} controls>
+            <video ref={videoRef} controls>
               <source src={video.videoUrl} type="video/mp4" />
             </video>
             <div>
