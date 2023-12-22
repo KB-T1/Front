@@ -2,6 +2,7 @@ import React, { LegacyRef, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Video } from "../../types/video";
+import { useInView } from "react-intersection-observer";
 
 interface VideoProps {
   videos: Video[];
@@ -11,37 +12,23 @@ export const VideoDetail = ({ videos }: VideoProps) => {
   const navigate = useNavigate();
 
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [inViewRef, inView] = useInView({
+    triggerOnce: true, // 한 번만 트리거
+    threshold: 0.2, // 화면에 20% 이상 노출되면 트리거
+  });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (!videoRef.current) return;
-
-        if (entry.isIntersecting) {
-          videoRef.current.play();
-        } else {
-          videoRef.current.pause();
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    if (inView && videoRef.current) {
+      videoRef.current.play(); // 화면에 나타날 때 비디오 재생
+    } else {
+      videoRef.current?.pause(); // 화면 밖으로 나갈 때 비디오 일시 중지
     }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, []);
+  }, [inView]);
 
   return (
     <VideoDetailContainer>
       {videos.map((video) => (
-        <VideoCard key={video.videoId}>
+        <VideoCard ref={inViewRef} key={video.videoId}>
           <video ref={videoRef} controls>
             <source src={video.videoUrl} type="video/mp4" />
           </video>
